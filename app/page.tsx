@@ -2,6 +2,7 @@ import { Navigation } from "@/components/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { organizationSchema, websiteSchema } from "@/lib/schemas";
 import {
   Award,
   Calendar,
@@ -18,13 +19,27 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema),
+        }}
+      />
+
       <Navigation />
 
       {/* Store Front Image Section */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <Image
           src="/placeholder.svg?height=800&width=1200"
-          alt="VipVeículos - Fachada da Loja"
+          alt="Fachada da VipVeículos - Loja de carros em Rio Grande, RS"
           fill
           className="object-cover"
           priority
@@ -85,7 +100,7 @@ export default function HomePage() {
             <div className="relative">
               <Image
                 src="/O home.png"
-                alt="Interior da VipVeículos"
+                alt="Interior da loja VipVeículos mostrando ambiente de atendimento aos clientes"
                 width={358}
                 height={514}
                 className="rounded-lg shadow-2xl"

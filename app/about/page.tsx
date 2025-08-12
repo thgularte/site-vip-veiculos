@@ -3,7 +3,29 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, Clock, Heart, Mail, Phone, Shield } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Sobre Nós - Nossa História e Valores",
+  description:
+    "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte. Mais de 15 anos de experiência no mercado automobilístico com valores de respeito, qualidade e confiança.",
+  keywords: [
+    "história VipVeículos",
+    "Fábio Gularte",
+    "empresa automobilística Rio Grande",
+    "valores da empresa",
+    "equipe VipVeículos",
+    "Marco vendedor",
+    "15 anos experiência",
+  ],
+  openGraph: {
+    title: "Sobre Nós - VipVeículos",
+    description:
+      "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte. Mais de 15 anos de experiência no mercado automobilístico.",
+    url: "https://vipveiculos.com.br/about",
+  },
+};
 
 const teamMembers = [
   {

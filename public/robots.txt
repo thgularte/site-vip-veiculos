@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://vipveiculos.com.br/sitemap.xml
+
+# Specific crawl delays
+Crawl-delay: 1
+
+# Block crawling of development files
+Disallow: /_next/
+Disallow: /api/
+Disallow: *.json
+
+# Allow important pages
+Allow: /
+Allow: /about
+Allow: /vehicles
+
+# SEO optimization
+# Allow crawling of CSS and JS for better rendering
+Allow: /_next/static/
+
+# Block sensitive areas (if any)
+# Disallow: /admin/
+# Disallow: /private/

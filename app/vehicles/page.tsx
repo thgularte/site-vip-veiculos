@@ -11,7 +11,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Calendar, Fuel, Gauge, Search, Users } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Veículos Disponíveis - Carros de Qualidade",
+  description:
+    "Explore nossa seleção de 21 veículos de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Renault, Honda e Ford. Carros seminovos revisados com garantia em Rio Grande - RS.",
+  keywords: [
+    "carros à venda Rio Grande",
+    "Chevrolet usados",
+    "Volkswagen seminovos",
+    "Fiat usado",
+    "Hyundai Rio Grande",
+    "Renault usado",
+    "Honda seminovo",
+    "Ford usado",
+    "veículos revisados",
+    "carros com garantia",
+  ],
+  openGraph: {
+    title: "Veículos Disponíveis - VipVeículos",
+    description:
+      "Explore nossa seleção de 21 veículos de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Renault, Honda e Ford.",
+    url: "https://vipveiculos.com.br/vehicles",
+  },
+};
 
 const vehicles = [
   {
