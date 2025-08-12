@@ -1,46 +1,34 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Award, Users, Heart, Shield, Clock, Star, Phone, Mail } from 'lucide-react'
-import Image from "next/image"
-import { Navigation } from "@/components/navigation"
+import { Navigation } from "@/components/navigation";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Award, Clock, Heart, Mail, Phone, Shield } from "lucide-react";
+import Image from "next/image";
 
 const teamMembers = [
   {
-    name: "Carlos Silva",
-    role: "Diretor Geral",
-    experience: "15 anos",
+    name: "Fábio Gularte",
+    role: "Dono / Fundador",
+    experience: "15+ anos",
     image: "/placeholder.svg?height=300&width=300",
-    description: "Fundador da VipVeículos, especialista em negociações e relacionamento com clientes."
+    description:
+      "Fundador da Vip Veículos, com mais de 15 anos de experiência no mercado automobilístico de Rio Grande.",
   },
   {
-    name: "Ana Santos",
-    role: "Gerente de Vendas",
-    experience: "8 anos",
+    name: "Marco",
+    role: "Vendedor",
+    experience: "Especialista",
     image: "/placeholder.svg?height=300&width=300",
-    description: "Especialista em financiamentos e consultoria personalizada para cada cliente."
+    description:
+      "Vendedor experiente, focado em encontrar o veículo ideal para cada cliente com atendimento personalizado.",
   },
-  {
-    name: "Roberto Costa",
-    role: "Consultor Sênior",
-    experience: "12 anos",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Expert em avaliações e inspeções técnicas, garantindo a qualidade dos veículos."
-  },
-  {
-    name: "Mariana Lima",
-    role: "Consultora de Vendas",
-    experience: "5 anos",
-    image: "/placeholder.svg?height=300&width=300",
-    description: "Focada em atendimento ao cliente e soluções personalizadas de financiamento."
-  }
-]
+];
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
+
       {/* Header */}
       <section className="bg-gradient-to-r from-[#323062] to-[#2A1770] text-white py-16 px-4">
         <div className="container mx-auto max-w-6xl">
@@ -61,23 +49,31 @@ export default function AboutPage() {
               <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-4 py-2">
                 Nossa História
               </Badge>
-              <h2 className="text-3xl font-bold text-[#323062]">15 Anos Transformando Sonhos em Realidade</h2>
+              <h2 className="text-3xl font-bold text-[#323062]">
+                15 Anos Ajudando Famílias a Escolherem o Carro Ideal
+              </h2>
               <div className="space-y-4 text-[#B9B9B9]">
                 <p>
-                  A VipVeículos nasceu em janeiro de 2008 com um sonho simples: revolucionar a experiência 
-                  de compra de veículos no Brasil. Desde o primeiro dia, nosso compromisso tem sido oferecer 
-                  não apenas carros de qualidade, mas uma experiência completa de confiança e transparência.
+                  A Vip Veículos está há mais de 15 anos no mercado de
+                  automóveis usados de Rio Grande, começando sua jornada em
+                  janeiro de 2008 e desde então vem trabalhando no seu dia a dia
+                  para garantir a certeza de uma ótima compra, prezando carros
+                  de qualidade e um ambiente harmonioso para receber seus
+                  clientes e amigos.
                 </p>
                 <p>
-                  Ao longo desses 15 anos, construímos uma reputação sólida baseada em valores fundamentais: 
-                  honestidade, qualidade e respeito ao cliente. Cada veículo que passa por nossas mãos é 
-                  cuidadosamente selecionado e inspecionado, garantindo que nossos clientes levem para casa 
-                  não apenas um carro, mas a certeza de uma excelente compra.
+                  Fundada por Fábio Gularte, nossa empresa se estabeleceu com o
+                  compromisso de conduzir todas as negociações com respeito e
+                  seriedade, sempre buscando a satisfação total de nossos
+                  clientes. Conte com a ajuda de profissionais qualificados que
+                  ajudam famílias a encontrarem o carro ideal.
                 </p>
                 <p>
-                  Hoje, somos mais que uma concessionária - somos parceiros dos nossos clientes na realização 
-                  de seus sonhos automotivos. Nossa equipe especializada trabalha incansavelmente para criar 
-                  um ambiente acolhedor onde cada negociação é conduzida com seriedade e transparência total.
+                  Nossa equipe qualificada trabalha para atendê-lo da melhor
+                  forma possível, garantindo que cada cliente encontre
+                  exatamente o que procura. Com mais de 15 anos de experiência
+                  no mercado automobilístico, construímos uma reputação sólida
+                  baseada na confiança e transparência em cada negociação.
                 </p>
               </div>
             </div>
@@ -105,8 +101,12 @@ export default function AboutPage() {
       <section className="py-16 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#323062] mb-4">Nossos Valores</h2>
-            <p className="text-[#B9B9B9] text-lg">Os pilares que guiam nossa atuação no mercado</p>
+            <h2 className="text-3xl font-bold text-[#323062] mb-4">
+              Nossos Valores
+            </h2>
+            <p className="text-[#B9B9B9] text-lg">
+              Os pilares que guiam nossa atuação no mercado
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow">
@@ -114,8 +114,13 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#D60404] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">Paixão</h3>
-                <p className="text-[#B9B9B9]">Amamos o que fazemos e isso se reflete em cada atendimento</p>
+                <h3 className="text-xl font-semibold text-[#323062] mb-2">
+                  Respeito
+                </h3>
+                <p className="text-[#B9B9B9]">
+                  Tratamos cada cliente como família, com respeito e atenção
+                  especial
+                </p>
               </CardContent>
             </Card>
             <Card className="text-center hover:shadow-lg transition-shadow">
@@ -123,8 +128,12 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#2A1770] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">Confiança</h3>
-                <p className="text-[#B9B9B9]">Transparência total em todas as nossas negociações</p>
+                <h3 className="text-xl font-semibold text-[#323062] mb-2">
+                  Confiança
+                </h3>
+                <p className="text-[#B9B9B9]">
+                  Transparência total em todas as nossas negociações
+                </p>
               </CardContent>
             </Card>
             <Card className="text-center hover:shadow-lg transition-shadow">
@@ -132,8 +141,12 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#03045E] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Award className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">Qualidade</h3>
-                <p className="text-[#B9B9B9]">Selecionamos apenas veículos que atendem nossos altos padrões</p>
+                <h3 className="text-xl font-semibold text-[#323062] mb-2">
+                  Qualidade
+                </h3>
+                <p className="text-[#B9B9B9]">
+                  Selecionamos apenas veículos que atendem nossos altos padrões
+                </p>
               </CardContent>
             </Card>
             <Card className="text-center hover:shadow-lg transition-shadow">
@@ -141,8 +154,13 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#A81818] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Clock className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">Compromisso</h3>
-                <p className="text-[#B9B9B9]">Dedicação total para garantir sua satisfação</p>
+                <h3 className="text-xl font-semibold text-[#323062] mb-2">
+                  Seriedade
+                </h3>
+                <p className="text-[#B9B9B9]">
+                  Conduzimos todas as negociações com seriedade e transparência
+                  total
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -153,10 +171,15 @@ export default function AboutPage() {
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#323062] mb-4">Nossa Equipe</h2>
-            <p className="text-[#B9B9B9] text-lg">Profissionais especializados prontos para atender você</p>
+            <h2 className="text-3xl font-bold text-[#323062] mb-4">
+              Nossa Equipe
+            </h2>
+            <p className="text-[#B9B9B9] text-lg">
+              Equipe qualificada para atendê-lo e ajudar sua família a encontrar
+              o carro ideal
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
             {teamMembers.map((member, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 text-center">
@@ -167,8 +190,12 @@ export default function AboutPage() {
                     height={300}
                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                   />
-                  <h3 className="text-xl font-semibold text-[#323062] mb-1">{member.name}</h3>
-                  <p className="text-[#D60404] font-medium mb-2">{member.role}</p>
+                  <h3 className="text-xl font-semibold text-[#323062] mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-[#D60404] font-medium mb-2">
+                    {member.role}
+                  </p>
                   <Badge variant="secondary" className="mb-3">
                     {member.experience} de experiência
                   </Badge>
@@ -184,8 +211,12 @@ export default function AboutPage() {
       <section className="py-16 px-4 bg-gray-50">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#323062] mb-4">Como Trabalhamos</h2>
-            <p className="text-[#B9B9B9] text-lg">Nosso processo garante a melhor experiência para você</p>
+            <h2 className="text-3xl font-bold text-[#323062] mb-4">
+              Como Trabalhamos
+            </h2>
+            <p className="text-[#B9B9B9] text-lg">
+              Nosso processo garante a melhor experiência para você
+            </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow">
@@ -193,9 +224,13 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#D60404] rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
                   1
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-3">Seleção Rigorosa</h3>
+                <h3 className="text-xl font-semibold text-[#323062] mb-3">
+                  Seleção de Qualidade
+                </h3>
                 <p className="text-[#B9B9B9]">
-                  Cada veículo passa por uma inspeção detalhada de 150 pontos antes de entrar em nosso estoque
+                  Cada veículo é cuidadosamente selecionado e avaliado, prezando
+                  pela qualidade e condições que garantem a satisfação do
+                  cliente
                 </p>
               </CardContent>
             </Card>
@@ -204,9 +239,12 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#2A1770] rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
                   2
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-3">Atendimento Personalizado</h3>
+                <h3 className="text-xl font-semibold text-[#323062] mb-3">
+                  Ambiente Harmonioso
+                </h3>
                 <p className="text-[#B9B9B9]">
-                  Nossa equipe dedica tempo para entender suas necessidades e encontrar o veículo perfeito
+                  Criamos um ambiente acolhedor para receber nossos clientes e
+                  amigos, com respeito e seriedade em todas as negociações
                 </p>
               </CardContent>
             </Card>
@@ -215,9 +253,12 @@ export default function AboutPage() {
                 <div className="w-16 h-16 bg-[#03045E] rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
                   3
                 </div>
-                <h3 className="text-xl font-semibold text-[#323062] mb-3">Pós-Venda Completo</h3>
+                <h3 className="text-xl font-semibold text-[#323062] mb-3">
+                  Certeza de uma Ótima Compra
+                </h3>
                 <p className="text-[#B9B9B9]">
-                  Oferecemos suporte completo mesmo após a compra, garantindo sua total satisfação
+                  Trabalhamos diariamente para garantir que cada cliente tenha a
+                  certeza de uma excelente compra e total satisfação
                 </p>
               </CardContent>
             </Card>
@@ -229,23 +270,47 @@ export default function AboutPage() {
       <section className="py-16 px-4 bg-gradient-to-r from-[#323062] to-[#2A1770] text-white">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Pronto para encontrar seu próximo veículo?</h2>
+            <h2 className="text-3xl font-bold mb-4">
+              Pronto para encontrar o carro ideal para sua família?
+            </h2>
             <p className="text-[#B9B9B9] text-lg mb-8">
-              Nossa equipe está pronta para ajudar você a realizar o sonho do carro novo
+              Nossa equipe qualificada está pronta para ajudar você a realizar o
+              sonho do carro novo
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-[#D60404] hover:bg-[#A81818] text-white">
-              <Phone className="w-4 h-4 mr-2" />
-              Ligar Agora
+            <Button
+              asChild
+              size="lg"
+              className="bg-[#D60404] hover:bg-[#A81818] text-white"
+            >
+              <a
+                href="https://wa.me/5553984139110?text=Olá! Gostaria de entrar em contato com a VipVeículos."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Phone className="w-4 h-4 mr-2" />
+                Ligar Agora
+              </a>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-[#323062]">
-              <Mail className="w-4 h-4 mr-2" />
-              Enviar E-mail
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white hover:text-[#323062]"
+            >
+              <a
+                href="https://wa.me/5553984139110?text=Olá! Gostaria de entrar em contato com a VipVeículos."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Enviar Mensagem
+              </a>
             </Button>
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
