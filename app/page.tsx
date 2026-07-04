@@ -12,6 +12,9 @@ import {
   Phone,
   Star,
   Users,
+  Instagram,
+  Heart,
+  MessageCircle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,9 +39,9 @@ export default function HomePage() {
       <Navigation />
 
       {/* Store Front Image Section */}
-      <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
+      <section className="relative h-[75vh] md:h-[85vh] overflow-hidden">
         <Image
-          src="/placeholder.svg?height=800&width=1200"
+          src="/faxada.jpeg"
           alt="Fachada da VipVeículos - Loja de carros em Rio Grande, RS"
           fill
           className="object-cover"
@@ -52,7 +55,7 @@ export default function HomePage() {
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold">VipVeículos</h1>
           <p className="text-xl md:text-2xl text-gray-200 mt-2">
-            Mais de 15 anos de experiência
+            A certeza de uma ótima compra
           </p>
         </div>
       </section>
@@ -277,6 +280,96 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Satisfied Customers / Realized Dreams Section */}
+      <section className="py-20 px-4 bg-slate-50 border-t border-b border-slate-100">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-4 py-2">
+                Sonhos Realizados
+              </Badge>
+              <h2 className="text-3xl lg:text-4xl font-bold text-[#323062] leading-tight">
+                Mais do que vender carros,
+                <span className="block text-[#D60404] mt-1">
+                  conectamos pessoas a novas conquistas
+                </span>
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Na VipVeículos, entendemos que um automóvel representa muito
+                mais do que apenas um meio de locomoção. Ele é o parceiro diário
+                no trabalho, o conforto nas viagens de fim de semana e a
+                segurança de quem você ama.
+              </p>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Nosso propósito é entender a fundo a sua necessidade e o seu
+                estilo de vida para ajudar você a escolher o veículo que
+                realmente vá agregar valor ao seu dia a dia, trazendo
+                praticidade, economia e segurança. Cada entrega de chaves é a
+                celebração de um novo capítulo feliz na vida dos nossos clientes
+                e amigos.
+              </p>
+            </div>
+
+            {/* Photo Grid / Gallery */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <div className="relative h-64 rounded-2xl overflow-hidden shadow-md group">
+                  <Image
+                    src="/happy_customer_1.png"
+                    alt="Entrega de chaves - Clientes satisfeitos da VipVeículos"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex items-end">
+                    <span className="text-white text-sm font-semibold">
+                      Juliana & Thiago
+                    </span>
+                  </div>
+                </div>
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-md group">
+                  <Image
+                    src="/happy_custumer_2.jpeg"
+                    alt="Entrega de chaves - Cliente satisfeito VipVeículos"
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex items-end">
+                    <span className="text-white text-sm font-semibold">
+                      Carlos Eduardo
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4 pt-8">
+                <div className="relative h-40 rounded-2xl overflow-hidden shadow-md group">
+                  <Image
+                    src="/happy_customer_3.png"
+                    alt="Entrega de chaves - Família feliz com carro novo"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex items-end">
+                    <span className="text-white text-sm font-semibold">
+                      Família Souza
+                    </span>
+                  </div>
+                </div>
+                <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-[#323062] to-[#2A1770] flex flex-col justify-between p-6 text-white">
+                  <Award className="w-8 h-8 text-[#D60404]" />
+                  <div>
+                    <p className="text-2xl font-bold">100%</p>
+                    <p className="text-sm opacity-80">
+                      de dedicação em cada detalhe para ajudar você a realizar
+                      seu sonho.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Vehicles CTA Section */}
       <section className="py-16 px-4 bg-gradient-to-r from-[#323062] to-[#2A1770] text-white">
         <div className="container mx-auto max-w-6xl text-center">
@@ -392,6 +485,69 @@ export default function HomePage() {
                 title="VipVeículos - Av. Santos Dumont, 80, Vila Junção, Rio Grande - RS"
               ></iframe>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Instagram CTA Section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12 space-y-4">
+            <div className="inline-flex p-3 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
+              <Instagram className="w-8 h-8" />
+            </div>
+            <h2 className="text-3xl font-bold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+              Fique por dentro das novidades! Siga o perfil <span className="font-semibold text-pink-600">@vipveiculos_</span> para acompanhar novas chegadas no pátio, entregas de chaves e ofertas exclusivas em tempo real.
+            </p>
+            <Button
+              asChild
+              className="bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:opacity-90 text-white font-bold px-8 py-6 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5"
+            >
+              <a
+                href="https://www.instagram.com/vipveiculos_/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="w-5 h-5 mr-2" />
+                Seguir @vipveiculos_
+              </a>
+            </Button>
+          </div>
+
+          {/* Instagram Post Grid Preview */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { src: "/happy_customer_1.png", likes: "142", comments: "12", position: "object-center" },
+              { src: "/happy_custumer_2.jpeg", likes: "115", comments: "9", position: "object-top" },
+              { src: "/happy_customer_3.png", likes: "168", comments: "21", position: "object-center" },
+              { src: "/faxada.jpeg", likes: "245", comments: "32", position: "object-center" },
+            ].map((post, idx) => (
+              <a
+                key={idx}
+                href="https://www.instagram.com/vipveiculos_/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative aspect-square rounded-2xl overflow-hidden shadow-md group block bg-slate-200"
+              >
+                <Image
+                  src={post.src}
+                  alt={`Post do Instagram VipVeículos ${idx + 1}`}
+                  fill
+                  className={`object-cover transition-transform duration-500 group-hover:scale-110 ${post.position}`}
+                />
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white font-bold">
+                  <div className="flex items-center gap-1.5">
+                    <Heart className="w-5 h-5 fill-white" />
+                    <span>{post.likes}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MessageCircle className="w-5 h-5 fill-white" />
+                    <span>{post.comments}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>

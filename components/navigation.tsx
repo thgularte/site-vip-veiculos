@@ -14,28 +14,29 @@ export function Navigation() {
     { href: "/", label: "Início" },
     { href: "/vehicles", label: "Veículos" },
     { href: "/about", label: "Sobre Nós" },
+    { href: "/sell", label: "Venda seu Carro" },
   ];
 
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="container mx-auto max-w-6xl px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-12">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
               <Image
                 src="/logo.png"
                 alt="VipVeículos Logo"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 className="w-full h-full object-contain"
               />
             </div>
             <div>
-              <div className="text-xl font-bold text-[#323062]">
+              <div className="text-base font-bold text-[#323062] leading-tight">
                 VipVeículos
               </div>
-              <div className="text-xs text-[#B9B9B9]">Desde 2008</div>
+              <div className="text-[10px] text-[#B9B9B9] leading-none">Desde 2008</div>
             </div>
           </Link>
 
