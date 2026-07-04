@@ -150,15 +150,18 @@ export function VehicleCatalog({ initialVehicles }: VehicleCatalogProps) {
             <div className="flex flex-col lg:flex-row gap-8">
 
                 {/* Mobile Filter Sheet */}
-                <div className="lg:hidden mb-4">
+                <div className="lg:hidden mb-5">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button variant="outline" className="w-full">
-                                <Filter className="mr-2 h-4 w-4" />
-                                Filtros
+                            <Button className="w-full bg-[#323062] hover:bg-[#2A1770] text-white font-extrabold h-14 rounded-xl shadow-lg flex items-center justify-center gap-2.5 text-base active:scale-[0.99] transition-all">
+                                <Filter className="h-5 w-5 text-[#D60404]" />
+                                <span>Filtrar Veículos ({processedVehicles.length} {processedVehicles.length === 1 ? 'resultado' : 'resultados'})</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" className="w-[300px] sm:w-[540px] overflow-y-auto">
+                        <SheetContent side="left" className="w-[88vw] sm:w-[540px] overflow-y-auto p-6 bg-white">
+                            <div className="pb-4 mb-4 border-b border-slate-100 flex items-center justify-between">
+                                <h3 className="text-xl font-bold text-[#323062]">Filtros de Busca</h3>
+                            </div>
                             <VehicleFilters
                                 filters={filters}
                                 setFilters={setFilters}
@@ -189,23 +192,23 @@ export function VehicleCatalog({ initialVehicles }: VehicleCatalogProps) {
                 <main className="flex-1">
                     <div className="mb-6 space-y-4">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                             <Input
                                 placeholder="Buscar por marca, modelo ou versão..."
-                                className="pl-10 bg-white"
+                                className="pl-12 bg-white border-slate-200 shadow-sm focus:border-[#D60404] h-12 rounded-xl text-base"
                                 value={filters.search}
                                 onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
                             />
                         </div>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                            <h2 className="text-xl md:text-2xl font-bold text-slate-800">
-                                {processedVehicles.length} {processedVehicles.length === 1 ? 'veículo encontrado' : 'veículos encontrados'}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+                            <h2 className="text-lg sm:text-2xl font-bold text-slate-800">
+                                {processedVehicles.length} {processedVehicles.length === 1 ? 'veículo disponível' : 'veículos disponíveis'}
                             </h2>
-                            <div className="flex items-center gap-2 w-full sm:w-auto min-w-[240px]">
-                                <span className="text-sm font-semibold text-slate-500 shrink-0">Ordenar por:</span>
+                            <div className="flex items-center gap-2 w-full sm:w-auto">
+                                <span className="text-xs sm:text-sm font-semibold text-slate-500 shrink-0">Ordenar:</span>
                                 <Select value={sortBy} onValueChange={setSortBy}>
-                                    <SelectTrigger className="w-full bg-white border-slate-200">
+                                    <SelectTrigger className="w-full sm:w-[220px] bg-white border-slate-200 font-medium">
                                         <SelectValue placeholder="Padrão" />
                                     </SelectTrigger>
                                     <SelectContent>

@@ -253,14 +253,14 @@ export default function SellPage() {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="pt-4 flex justify-end">
+                                <div className="pt-6 flex justify-end">
                                     <Button
                                         type="submit"
                                         size="lg"
-                                        className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 shadow-xl shadow-green-600/20"
+                                        className="w-full sm:w-auto bg-[#25D366] hover:bg-[#1fba59] text-white font-extrabold h-14 px-8 rounded-xl shadow-xl shadow-green-600/25 active:scale-[0.98] transition-all text-base flex items-center justify-center gap-2.5"
                                     >
-                                        <MessageCircle className="w-5 h-5 mr-2" />
-                                        Enviar Proposta para Avaliação
+                                        <MessageCircle className="w-6 h-6 fill-current shrink-0" />
+                                        <span>Enviar Proposta via WhatsApp</span>
                                     </Button>
                                 </div>
 

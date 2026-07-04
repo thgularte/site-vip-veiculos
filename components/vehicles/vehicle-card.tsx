@@ -97,10 +97,10 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                     </div>
                 </div>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-2.5 pt-3">
                     <Button
                         asChild
-                        className="flex-1 bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all"
+                        className="flex-1 bg-[#323062] hover:bg-[#2A1770] text-white shadow-sm hover:shadow-md h-11 sm:h-12 rounded-xl font-bold text-xs sm:text-sm active:scale-[0.98] transition-all"
                     >
                         <Link href={`/vehicles/${vehicle.id}`}>
                             Ver Detalhes
@@ -109,14 +109,14 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                     <Button
                         asChild
                         variant="outline"
-                        className="flex-1 border-primary/20 text-primary hover:bg-primary/5 hover:text-primary transition-all"
+                        className="flex-1 border-[#25D366]/40 bg-green-50/50 hover:bg-[#25D366] text-green-700 hover:text-white h-11 sm:h-12 rounded-xl font-bold text-xs sm:text-sm active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                     >
                         <a
-                            href={`https://wa.me/5553984139110?text=Olá! Tenho interesse no ${vehicle.brand} ${vehicle.model} ${vehicle.version} ${vehicle.modelYear}/${vehicle.year}. Gostaria de mais informações.`}
+                            href={`https://wa.me/5553984139110?text=${encodeURIComponent(`Olá! Tenho interesse no ${vehicle.brand} ${vehicle.model} ${vehicle.version} (${vehicle.modelYear}/${vehicle.year}). Gostaria de mais informações.`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            WhatsApp
+                            <span>WhatsApp</span>
                         </a>
                     </Button>
                 </div>

@@ -47,34 +47,33 @@ export default function HomePage() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-8 left-8 text-white">
-          <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-4 py-2 mb-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute bottom-8 left-6 sm:left-12 right-6 sm:right-auto text-white z-10">
+          <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-3.5 py-1.5 mb-3 text-xs sm:text-sm font-bold shadow-md">
             <Calendar className="w-4 h-4 mr-2" />
             Desde Janeiro de 2008
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold">VipVeículos</h1>
-          <p className="text-xl md:text-2xl text-gray-200 mt-2">
-            A certeza de uma ótima compra
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none">
+            VipVeículos
+          </h1>
+          <p className="text-lg sm:text-2xl text-gray-200 mt-2 font-medium max-w-xl">
+            A certeza de uma ótima compra em Rio Grande - RS
           </p>
         </div>
       </section>
 
-      {/* Spacer */}
-      <div className="py-12"></div>
-
       {/* Company Introduction Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
+      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             <div className="space-y-6">
-              <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-[#323062]">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-[#323062] tracking-tight">
                 Tradição e Confiança
-                <span className="block text-2xl lg:text-3xl text-[#D60404] font-normal mt-2">
+                <span className="block text-xl sm:text-2xl lg:text-3xl text-[#D60404] font-semibold mt-1">
                   em Rio Grande há mais de 15 anos
                 </span>
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal">
                 A Vip Veículos está há mais de 15 anos no mercado de automóveis
                 usados de Rio Grande, começando sua jornada em janeiro de 2008 e
                 desde então vem trabalhando no seu dia a dia para garantir a
@@ -82,21 +81,21 @@ export default function HomePage() {
                 ambiente harmonioso para receber seus clientes e amigos, com
                 respeito e seriedade nas negociações.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-[#D60404] hover:bg-[#A81818] text-white"
+                  className="w-full sm:w-auto bg-[#D60404] hover:bg-[#A81818] text-white font-extrabold h-13 py-4 px-8 rounded-xl shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all"
                 >
-                  <Link href="/vehicles">Ver Veículos</Link>
+                  <Link href="/vehicles">Ver Veículos em Estoque</Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-[#323062] text-[#323062] hover:bg-[#323062] hover:text-white"
+                  className="w-full sm:w-auto border-2 border-[#323062] text-[#323062] hover:bg-[#323062] hover:text-white font-bold h-13 py-4 px-8 rounded-xl active:scale-[0.98] transition-all"
                 >
-                  <Link href="/about">Sobre Nós</Link>
+                  <Link href="/about">Conheça Nossa História</Link>
                 </Button>
               </div>
             </div>
@@ -371,47 +370,51 @@ export default function HomePage() {
       </section>
 
       {/* Vehicles CTA Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-[#323062] to-[#2A1770] text-white">
-        <div className="container mx-auto max-w-6xl text-center">
-          <h2 className="text-3xl font-bold mb-4">
+      <section className="py-16 sm:py-20 px-4 bg-gradient-to-r from-[#323062] to-[#2A1770] text-white">
+        <div className="container mx-auto max-w-6xl text-center space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Encontre seu próximo veículo
           </h2>
-          <p className="text-[#B9B9B9] text-lg mb-8">
+          <p className="text-[#B9B9B9] text-base sm:text-lg max-w-2xl mx-auto font-normal">
             Explore nossa seleção de veículos de qualidade, todos revisados e
-            com garantia
+            com garantia de procedência.
           </p>
-          <Button
-            asChild
-            size="lg"
-            className="bg-[#D60404] hover:bg-[#A81818] text-white"
-          >
-            <Link href="/vehicles">Ver Todos os Veículos</Link>
-          </Button>
+          <div className="pt-2">
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto bg-[#D60404] hover:bg-[#A81818] text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-xl shadow-red-600/30 active:scale-[0.98] transition-all text-base"
+            >
+              <Link href="/vehicles">Ver Todos os Veículos</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Location Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 sm:py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#323062] mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] mb-3">
               Nossa Localização
             </h2>
-            <p className="text-[#B9B9B9] text-lg">
+            <p className="text-slate-500 text-base sm:text-lg font-medium">
               Visite nossa loja e conheça nossos veículos pessoalmente
             </p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <Card>
-                <CardContent className="p-6">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div className="space-y-4 sm:space-y-6">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-6 h-6 text-[#D60404] mt-1" />
-                    <div>
-                      <h3 className="font-semibold text-[#323062] mb-2">
+                    <div className="p-3 bg-red-50 rounded-xl text-[#D60404] shrink-0">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg text-[#323062] mb-1">
                         Endereço
                       </h3>
-                      <p className="text-[#B9B9B9]">
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                         Av. Santos Dumont, 80
                         <br />
                         Vila Junção, Rio Grande - RS
@@ -420,7 +423,7 @@ export default function HomePage() {
                       </p>
                       <Button
                         asChild
-                        className="mt-3 bg-[#D60404] hover:bg-[#A81818] text-white text-sm"
+                        className="w-full sm:w-auto mt-4 bg-[#D60404] hover:bg-[#A81818] text-white text-sm font-bold h-12 rounded-xl shadow-sm flex items-center justify-center gap-2"
                         size="sm"
                       >
                         <a
@@ -428,52 +431,56 @@ export default function HomePage() {
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <MapPin className="w-4 h-4 mr-2" />
-                          Ver no Google Maps
+                          <MapPin className="w-4 h-4" />
+                          <span>Abrir no Google Maps</span>
                         </a>
                       </Button>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
-                    <Phone className="w-6 h-6 text-[#2A1770] mt-1" />
+                    <div className="p-3 bg-purple-50 rounded-xl text-[#2A1770] shrink-0">
+                      <Phone className="w-6 h-6" />
+                    </div>
                     <div>
-                      <h3 className="font-semibold text-[#323062] mb-2">
-                        Telefone
+                      <h3 className="font-bold text-lg text-[#323062] mb-1">
+                        Atendimento e Telefone
                       </h3>
-                      <p className="text-[#B9B9B9]">
-                        (53) 3230-0250
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Telefone Fixo: <span className="font-semibold">(53) 3230-0250</span>
                         <br />
-                        WhatsApp: (53) 98413-9110
+                        WhatsApp: <span className="font-semibold">(53) 98413-9110</span>
                         <br />
-                        WhatsApp: (53) 99104-3340
+                        WhatsApp: <span className="font-semibold">(53) 99104-3340</span>
                       </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardContent className="p-6">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
-                    <Mail className="w-6 h-6 text-[#03045E] mt-1" />
+                    <div className="p-3 bg-blue-50 rounded-xl text-[#03045E] shrink-0">
+                      <Mail className="w-6 h-6" />
+                    </div>
                     <div>
-                      <h3 className="font-semibold text-[#323062] mb-2">
-                        Contato
+                      <h3 className="font-bold text-lg text-[#323062] mb-1">
+                        Canais Online
                       </h3>
-                      <p className="text-[#B9B9B9]">
-                        E-mail: vipveiculos@gmail.com
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        E-mail: <span className="font-semibold">vipveiculos@gmail.com</span>
                         <br />
-                        Instagram: @vipveiculos_
+                        Instagram: <span className="font-semibold text-pink-600">@vipveiculos_</span>
                       </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             </div>
-            <div className="rounded-lg overflow-hidden h-96 shadow-lg">
+            <div className="rounded-2xl overflow-hidden h-80 sm:h-96 shadow-lg border border-slate-100">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d830.2631565826582!2d-52.1087724869792!3d-32.040895781187946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x751153bbfc5ef7eed%3A0xf8468d209e59ae21!2sAv.%20Santos%20Dumont%2C%2080%20-%20Vila%20Juncao%2C%20Rio%20Grande%20-%20RS%2C%2096202-090!5e0!3m2!1spt-BR!2sbr!4v1734011234567!5m2!1spt-BR!2sbr"
                 width="100%"
@@ -490,29 +497,32 @@ export default function HomePage() {
       </section>
 
       {/* Instagram CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200">
+      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12 space-y-4">
-            <div className="inline-flex p-3 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
+            <div className="inline-flex p-3.5 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
               <Instagram className="w-8 h-8" />
             </div>
-            <h2 className="text-3xl font-bold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
+            <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto font-normal">
               Fique por dentro das novidades! Siga o perfil <span className="font-semibold text-pink-600">@vipveiculos_</span> para acompanhar novas chegadas no pátio, entregas de chaves e ofertas exclusivas em tempo real.
             </p>
-            <Button
-              asChild
-              className="bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:opacity-90 text-white font-bold px-8 py-6 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5"
-            >
-              <a
-                href="https://www.instagram.com/vipveiculos_/"
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="pt-2">
+              <Button
+                asChild
+                className="w-full sm:w-auto bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:opacity-95 text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] text-base"
               >
-                <Instagram className="w-5 h-5 mr-2" />
-                Seguir @vipveiculos_
-              </a>
-            </Button>
+                <a
+                  href="https://www.instagram.com/vipveiculos_/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2.5"
+                >
+                  <Instagram className="w-5 h-5 shrink-0" />
+                  <span>Seguir @vipveiculos_ agora</span>
+                </a>
+              </Button>
+            </div>
           </div>
 
           {/* Instagram Post Grid Preview */}

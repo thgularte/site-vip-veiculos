@@ -14,7 +14,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { MessageCircle, ArrowRightLeft, Calendar } from "lucide-react";
+import { MessageCircle, ArrowRightLeft, Calendar, ShieldCheck, Sparkles, Clock } from "lucide-react";
 import { sendGAEvent } from "@next/third-parties/google";
 import {
     Select,
@@ -63,7 +63,6 @@ export function VehicleActions({ vehicle }: VehicleActionsProps) {
             return;
         }
 
-        // Format WhatsApp message
         const targetNumber = "5553984139110";
         const intro = `Olá! Tenho interesse no *${vehicle.brand} ${vehicle.model}* (${vehicle.version}, ${vehicle.modelYear}/${vehicle.year}) anunciado no site e gostaria de propor uma troca.`;
         const details = `\n\n*Dados do meu veículo para troca:*\n- *Marca/Modelo:* ${formData.brandModel.trim()}\n- *Ano:* ${formData.year.trim() || "Não informado"}\n- *KM:* ${formData.km.trim() || "Não informado"}\n- *Observações/Opcionais:* ${formData.details.trim() || "Nenhuma"}`;
@@ -71,7 +70,6 @@ export function VehicleActions({ vehicle }: VehicleActionsProps) {
         const fullMessage = encodeURIComponent(intro + details);
         const whatsappUrl = `https://wa.me/${targetNumber}?text=${fullMessage}`;
 
-        // Track GA4 event
         sendGAEvent({
             event: "submit_trade_proposal",
             value: `${vehicle.brand} ${vehicle.model}`,
@@ -79,7 +77,6 @@ export function VehicleActions({ vehicle }: VehicleActionsProps) {
 
         window.open(whatsappUrl, "_blank");
         setIsOpen(false);
-        // Reset form
         setFormData({
             brandModel: "",
             year: "",
@@ -145,243 +142,277 @@ export function VehicleActions({ vehicle }: VehicleActionsProps) {
     };
 
     return (
-        <div className="mt-4 flex flex-col sm:flex-row gap-4 p-6 bg-white rounded-xl shadow-lg border border-primary/10 sticky bottom-4 lg:static z-40">
-            <div className="flex-1">
-                <p className="text-sm text-slate-500 mb-1">Valor do veículo</p>
-                {vehicle.price === "Consulte" ? (
-                    <p className="text-2xl font-bold text-primary">Sob Consulta</p>
-                ) : (
-                    <p className="text-3xl font-bold text-primary">{vehicle.price}</p>
-                )}
+        <div className="mt-6 p-6 sm:p-8 bg-gradient-to-br from-white via-white to-slate-50/90 rounded-2xl shadow-xl border border-slate-200/80 space-y-6 relative z-30">
+            {/* Header / Price Row */}
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-slate-100 pb-5">
+                <div>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        Valor do veículo
+                    </p>
+                    {vehicle.price === "Consulte" ? (
+                        <p className="text-3xl sm:text-4xl font-black text-[#323062] tracking-tight">
+                            Sob Consulta
+                        </p>
+                    ) : (
+                        <p className="text-3xl sm:text-4xl font-black text-[#323062] tracking-tight">
+                            {vehicle.price}
+                        </p>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-2 self-start sm:self-center px-3.5 py-1.5 bg-green-50 text-green-700 rounded-full border border-green-200 text-xs font-bold shadow-sm">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    Veículo Disponível
+                </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 flex-2 w-full sm:w-auto">
+            {/* Primary CTA Button - Full Width */}
+            <div className="space-y-3">
                 <Button
                     asChild
                     size="lg"
-                    className="flex-1 bg-green-600 hover:bg-green-700 shadow-xl shadow-green-600/20 text-white font-bold text-base h-auto py-4"
+                    className="w-full bg-[#25D366] hover:bg-[#1fba59] text-white font-extrabold text-base sm:text-lg h-auto py-4 sm:py-5 rounded-xl shadow-lg shadow-green-500/25 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
                 >
                     <a
                         href={`https://wa.me/5553984139110?text=${encodeURIComponent(
-                            `Olá! Estou vendo o ${vehicle.brand} ${vehicle.model} no site e gostaria de mais informações.`
+                            `Olá! Estou vendo o ${vehicle.brand} ${vehicle.model} (${vehicle.version}, ${vehicle.modelYear}/${vehicle.year}) no site e gostaria de mais informações.`
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={handleDirectContactClick}
+                        className="flex items-center justify-center gap-3"
                     >
-                        <MessageCircle className="w-5 h-5 mr-2" />
-                        Tenho Interesse
+                        <MessageCircle className="w-6 h-6 fill-current shrink-0" />
+                        <span>Tenho Interesse via WhatsApp</span>
                     </a>
                 </Button>
 
-                {/* Propose Trade-In Button */}
-                <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                    <DialogTrigger asChild>
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="flex-1 border-[#323062] text-[#323062] hover:bg-[#323062] hover:text-white font-bold text-base h-auto py-4 transition-all"
-                        >
-                            <ArrowRightLeft className="w-5 h-5 mr-2" />
-                            Propor Troca
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[480px] rounded-2xl bg-white border border-slate-100 p-6 shadow-2xl">
-                        <DialogHeader className="space-y-2">
-                            <DialogTitle className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                                <ArrowRightLeft className="w-6 h-6 text-[#D60404]" />
-                                Proposta de Troca
-                            </DialogTitle>
-                            <DialogDescription className="text-slate-500">
-                                Envie os dados do seu veículo atual. Vamos avaliar e responder com a melhor proposta pelo *{vehicle.brand} {vehicle.model}*.
-                            </DialogDescription>
-                        </DialogHeader>
+                {/* Secondary Actions Grid - 2 Columns */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    {/* Propose Trade-In Button */}
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className="w-full bg-slate-50/80 hover:bg-[#323062] text-[#323062] hover:text-white border-2 border-slate-200 hover:border-[#323062] font-bold text-sm sm:text-base h-auto py-3.5 sm:py-4 rounded-xl transition-all duration-200 shadow-sm flex items-center justify-center gap-2.5"
+                            >
+                                <ArrowRightLeft className="w-5 h-5 shrink-0 text-[#D60404] group-hover:text-white transition-colors" />
+                                <span>Propor Troca</span>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[480px] rounded-2xl bg-white border border-slate-100 p-6 shadow-2xl">
+                            <DialogHeader className="space-y-2">
+                                <DialogTitle className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                    <ArrowRightLeft className="w-6 h-6 text-[#D60404]" />
+                                    Proposta de Troca
+                                </DialogTitle>
+                                <DialogDescription className="text-slate-500">
+                                    Envie os dados do seu veículo atual. Vamos avaliar e responder com a melhor proposta pelo *{vehicle.brand} {vehicle.model}*.
+                                </DialogDescription>
+                            </DialogHeader>
 
-                        <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="brandModel" className="text-sm font-semibold text-slate-700">
-                                    Seu Veículo (Marca, Modelo e Versão) *
-                                </Label>
-                                <Input
-                                    id="brandModel"
-                                    name="brandModel"
-                                    value={formData.brandModel}
-                                    onChange={handleInputChange}
-                                    placeholder="Ex: Chevrolet Onix 1.4 LTZ"
-                                    className={`bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 ${
-                                        error ? "border-red-500 focus:ring-red-200" : ""
-                                    }`}
-                                />
-                                {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
+                            <form onSubmit={handleSubmit} className="space-y-4 pt-4">
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="year" className="text-sm font-semibold text-slate-700">
-                                        Ano (Modelo/Fabricação)
+                                    <Label htmlFor="brandModel" className="text-sm font-semibold text-slate-700">
+                                        Seu Veículo (Marca, Modelo e Versão) *
                                     </Label>
                                     <Input
-                                        id="year"
-                                        name="year"
-                                        value={formData.year}
+                                        id="brandModel"
+                                        name="brandModel"
+                                        value={formData.brandModel}
                                         onChange={handleInputChange}
-                                        placeholder="Ex: 2018/2019"
-                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Ex: Chevrolet Onix 1.4 LTZ"
+                                        className={`bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 ${
+                                            error ? "border-red-500 focus:ring-red-200" : ""
+                                        }`}
                                     />
+                                    {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="year" className="text-sm font-semibold text-slate-700">
+                                            Ano (Modelo/Fabricação)
+                                        </Label>
+                                        <Input
+                                            id="year"
+                                            name="year"
+                                            value={formData.year}
+                                            onChange={handleInputChange}
+                                            placeholder="Ex: 2018/2019"
+                                            className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="km" className="text-sm font-semibold text-slate-700">
+                                            Quilometragem (KM)
+                                        </Label>
+                                        <Input
+                                            id="km"
+                                            name="km"
+                                            value={formData.km}
+                                            onChange={handleInputChange}
+                                            placeholder="Ex: 65.000"
+                                            className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
+                                        />
+                                    </div>
+                                </div>
+
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="km" className="text-sm font-semibold text-slate-700">
-                                        Quilometragem (KM)
+                                    <Label htmlFor="details" className="text-sm font-semibold text-slate-700">
+                                        Observações e Opcionais
                                     </Label>
-                                    <Input
-                                        id="km"
-                                        name="km"
-                                        value={formData.km}
+                                    <Textarea
+                                        id="details"
+                                        name="details"
+                                        rows={3}
+                                        value={formData.details}
                                         onChange={handleInputChange}
-                                        placeholder="Ex: 65.000"
-                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Ex: Único dono, completo, bancos em couro, todas as revisões feitas na concessionária..."
+                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 resize-none"
                                     />
                                 </div>
-                            </div>
 
-                            <div className="space-y-1.5">
-                                <Label htmlFor="details" className="text-sm font-semibold text-slate-700">
-                                    Observações e Opcionais
-                                </Label>
-                                <Textarea
-                                    id="details"
-                                    name="details"
-                                    rows={3}
-                                    value={formData.details}
-                                    onChange={handleInputChange}
-                                    placeholder="Ex: Único dono, completo, bancos em couro, todas as revisões feitas na concessionária..."
-                                    className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 resize-none"
-                                />
-                            </div>
+                                <div className="pt-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setIsOpen(false)}
+                                        className="border-slate-200 text-slate-700 font-medium"
+                                    >
+                                        Cancelar
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center shadow-lg shadow-green-600/20"
+                                    >
+                                        <MessageCircle className="w-4 h-4 mr-2" />
+                                        Enviar no WhatsApp
+                                    </Button>
+                                </div>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
 
-                            <div className="pt-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => setIsOpen(false)}
-                                    className="border-slate-200 text-slate-700 font-medium"
-                                >
-                                    Cancelar
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center shadow-lg shadow-green-600/20"
-                                >
-                                    <MessageCircle className="w-4 h-4 mr-2" />
-                                    Enviar no WhatsApp
-                                </Button>
-                            </div>
-                        </form>
-                    </DialogContent>
-                </Dialog>
-
-                {/* Schedule Visit Button / Dialog */}
-                <Dialog open={isScheduleOpen} onOpenChange={setIsScheduleOpen}>
-                    <DialogTrigger asChild>
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            className="flex-1 border-[#323062] text-[#323062] hover:bg-[#323062] hover:text-white font-bold text-base h-auto py-4 transition-all"
-                        >
-                            <Calendar className="w-5 h-5 mr-2" />
-                            Agendar Visita
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[480px] rounded-2xl bg-white border border-slate-100 p-6 shadow-2xl">
-                        <DialogHeader className="space-y-2">
-                            <DialogTitle className="text-2xl font-bold text-[#323062] flex items-center gap-2">
-                                <Calendar className="w-6 h-6 text-[#D60404]" />
-                                Agendar Visita / Test-Drive
-                            </DialogTitle>
-                            <DialogDescription className="text-slate-500">
-                                Agende um horário para conhecer o <strong>{vehicle.brand} {vehicle.model}</strong> pessoalmente e fazer um test-drive.
-                            </DialogDescription>
-                        </DialogHeader>
-                        <form onSubmit={handleScheduleSubmit} className="space-y-4 mt-4">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="scheduleName" className="text-sm font-semibold text-slate-700">Seu Nome Completo *</Label>
-                                <Input
-                                    id="scheduleName"
-                                    name="name"
-                                    value={scheduleData.name}
-                                    onChange={handleScheduleChange}
-                                    placeholder="Ex: Carlos Silva"
-                                    className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label htmlFor="schedulePhone" className="text-sm font-semibold text-slate-700">WhatsApp / Telefone *</Label>
-                                <Input
-                                    id="schedulePhone"
-                                    name="phone"
-                                    value={scheduleData.phone}
-                                    onChange={handleScheduleChange}
-                                    placeholder="Ex: (53) 99999-9999"
-                                    className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
-                                    required
-                                />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
+                    {/* Schedule Visit Button / Dialog */}
+                    <Dialog open={isScheduleOpen} onOpenChange={setIsScheduleOpen}>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className="w-full bg-slate-50/80 hover:bg-[#323062] text-[#323062] hover:text-white border-2 border-slate-200 hover:border-[#323062] font-bold text-sm sm:text-base h-auto py-3.5 sm:py-4 rounded-xl transition-all duration-200 shadow-sm flex items-center justify-center gap-2.5"
+                            >
+                                <Calendar className="w-5 h-5 shrink-0 text-[#D60404] group-hover:text-white transition-colors" />
+                                <span>Agendar Visita</span>
+                            </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[480px] rounded-2xl bg-white border border-slate-100 p-6 shadow-2xl">
+                            <DialogHeader className="space-y-2">
+                                <DialogTitle className="text-2xl font-bold text-[#323062] flex items-center gap-2">
+                                    <Calendar className="w-6 h-6 text-[#D60404]" />
+                                    Agendar Visita / Test-Drive
+                                </DialogTitle>
+                                <DialogDescription className="text-slate-500">
+                                    Agende um horário para conhecer o <strong>{vehicle.brand} {vehicle.model}</strong> pessoalmente e fazer um test-drive.
+                                </DialogDescription>
+                            </DialogHeader>
+                            <form onSubmit={handleScheduleSubmit} className="space-y-4 mt-4">
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="scheduleDate" className="text-sm font-semibold text-slate-700">Data Preferida *</Label>
+                                    <Label htmlFor="scheduleName" className="text-sm font-semibold text-slate-700">Seu Nome Completo *</Label>
                                     <Input
-                                        id="scheduleDate"
-                                        name="date"
-                                        type="date"
-                                        value={scheduleData.date}
+                                        id="scheduleName"
+                                        name="name"
+                                        value={scheduleData.name}
                                         onChange={handleScheduleChange}
-                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 block w-full animate-none"
+                                        placeholder="Ex: Carlos Silva"
+                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
                                         required
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label htmlFor="scheduleTurn" className="text-sm font-semibold text-slate-700">Turno Preferido</Label>
-                                    <Select
-                                        value={scheduleData.turn}
-                                        onValueChange={handleScheduleSelectChange}
-                                    >
-                                        <SelectTrigger id="scheduleTurn" className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20">
-                                            <SelectValue placeholder="Selecione o turno" />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-white">
-                                            <SelectItem value="morning">Manhã (09:00 - 12:00)</SelectItem>
-                                            <SelectItem value="afternoon">Tarde (14:00 - 18:00)</SelectItem>
-                                            <SelectItem value="saturday">Sábado Pela Manhã</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <Label htmlFor="schedulePhone" className="text-sm font-semibold text-slate-700">WhatsApp / Telefone *</Label>
+                                    <Input
+                                        id="schedulePhone"
+                                        name="phone"
+                                        value={scheduleData.phone}
+                                        onChange={handleScheduleChange}
+                                        placeholder="Ex: (53) 99999-9999"
+                                        className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20"
+                                        required
+                                    />
                                 </div>
-                            </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="scheduleDate" className="text-sm font-semibold text-slate-700">Data Preferida *</Label>
+                                        <Input
+                                            id="scheduleDate"
+                                            name="date"
+                                            type="date"
+                                            value={scheduleData.date}
+                                            onChange={handleScheduleChange}
+                                            className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20 block w-full animate-none"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label htmlFor="scheduleTurn" className="text-sm font-semibold text-slate-700">Turno Preferido</Label>
+                                        <Select
+                                            value={scheduleData.turn}
+                                            onValueChange={handleScheduleSelectChange}
+                                        >
+                                            <SelectTrigger id="scheduleTurn" className="bg-slate-50 border-slate-200 focus:ring-2 focus:ring-primary/20">
+                                                <SelectValue placeholder="Selecione o turno" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-white">
+                                                <SelectItem value="morning">Manhã (09:00 - 12:00)</SelectItem>
+                                                <SelectItem value="afternoon">Tarde (14:00 - 18:00)</SelectItem>
+                                                <SelectItem value="saturday">Sábado Pela Manhã</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
 
-                            {scheduleError && (
-                                <p className="text-sm text-red-500 font-medium">{scheduleError}</p>
-                            )}
+                                {scheduleError && (
+                                    <p className="text-sm text-red-500 font-medium">{scheduleError}</p>
+                                )}
 
-                            <div className="pt-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => setIsScheduleOpen(false)}
-                                    className="border-slate-200 text-slate-700 font-medium"
-                                >
-                                    Cancelar
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center shadow-lg shadow-green-600/20"
-                                >
-                                    <MessageCircle className="w-4 h-4 mr-2" />
-                                    Confirmar no WhatsApp
-                                </Button>
-                            </div>
-                        </form>
-                    </DialogContent>
-                </Dialog>
+                                <div className="pt-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setIsScheduleOpen(false)}
+                                        className="border-slate-200 text-slate-700 font-medium"
+                                    >
+                                        Cancelar
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center shadow-lg shadow-green-600/20"
+                                    >
+                                        <MessageCircle className="w-4 h-4 mr-2" />
+                                        Confirmar no WhatsApp
+                                    </Button>
+                                </div>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
+                </div>
+            </div>
+
+            {/* Trust Footer Badges */}
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-500 font-medium">
+                <span className="flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-amber-500" /> Resposta em até 15 min
+                </span>
+                <span className="hidden sm:inline text-slate-300">•</span>
+                <span className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-green-600" /> Garantia e Procedência
+                </span>
+                <span className="hidden sm:inline text-slate-300">•</span>
+                <span className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-blue-500" /> Melhor Avaliação
+                </span>
             </div>
         </div>
     );

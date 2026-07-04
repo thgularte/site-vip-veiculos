@@ -300,34 +300,34 @@ export default function AboutPage() {
               sonho do carro novo
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2">
             <Button
               asChild
               size="lg"
-              className="bg-[#D60404] hover:bg-[#A81818] text-white"
+              className="w-full sm:w-auto bg-[#D60404] hover:bg-[#A81818] text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-lg shadow-red-600/30 active:scale-[0.98] transition-all text-base flex items-center justify-center gap-2.5"
             >
               <a
                 href="https://wa.me/5553984139110?text=Olá! Gostaria de entrar em contato com a VipVeículos."
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Phone className="w-4 h-4 mr-2" />
-                Ligar Agora
+                <Phone className="w-5 h-5 shrink-0" />
+                <span>Ligar ou Chamar no WhatsApp</span>
               </a>
             </Button>
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-[#323062]"
+              className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-[#323062] font-bold h-14 px-8 py-4 rounded-xl active:scale-[0.98] transition-all text-base flex items-center justify-center gap-2.5 bg-transparent"
             >
               <a
                 href="https://wa.me/5553984139110?text=Olá! Gostaria de entrar em contato com a VipVeículos."
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Mail className="w-4 h-4 mr-2" />
-                Enviar Mensagem
+                <Mail className="w-5 h-5 shrink-0" />
+                <span>Enviar Mensagem</span>
               </a>
             </Button>
           </div>

@@ -118,7 +118,7 @@ export function VehicleGallery({
                             onClick={handlePrev}
                             disabled={!canScrollPrev}
                             className={cn(
-                                "absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 disabled:opacity-0 hover:bg-black/60 transition-all z-10 border border-white/10",
+                                "absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-black/55 text-white backdrop-blur-sm opacity-90 sm:opacity-0 group-hover:opacity-100 disabled:opacity-0 hover:bg-black/75 active:scale-90 transition-all z-10 border border-white/20 shadow-lg",
                                 !canScrollPrev && "pointer-events-none"
                             )}
                             aria-label="Foto anterior"
@@ -129,7 +129,7 @@ export function VehicleGallery({
                             onClick={handleNext}
                             disabled={!canScrollNext}
                             className={cn(
-                                "absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/40 text-white backdrop-blur-sm opacity-0 group-hover:opacity-100 disabled:opacity-0 hover:bg-black/60 transition-all z-10 border border-white/10",
+                                "absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center bg-black/55 text-white backdrop-blur-sm opacity-90 sm:opacity-0 group-hover:opacity-100 disabled:opacity-0 hover:bg-black/75 active:scale-90 transition-all z-10 border border-white/20 shadow-lg",
                                 !canScrollNext && "pointer-events-none"
                             )}
                             aria-label="Próxima foto"
@@ -141,21 +141,21 @@ export function VehicleGallery({
 
                 {/* Picture Counter Indicator */}
                 {galleryList.length > 1 && (
-                    <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm z-10 border border-white/10">
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm z-10 border border-white/15 shadow-md">
                         {currentIndex + 1} / {galleryList.length}
                     </div>
                 )}
             </div>
 
-            {/* Thumbnail Row */}
+            {/* Thumbnail Row - Responsive Horizontal Scroll on Mobile / Grid on Desktop */}
             {galleryList.length > 1 && (
-                <div className="grid grid-cols-4 gap-4">
+                <div className="flex sm:grid sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-3 overflow-x-auto pb-2 scrollbar-none snap-x">
                     {galleryList.map((imgUrl, index) => (
                         <button
                             key={index}
                             onClick={() => handleThumbnailClick(index)}
                             className={cn(
-                                "relative aspect-video rounded-xl overflow-hidden cursor-pointer bg-slate-100 transition-all duration-300 border-2",
+                                "relative aspect-video w-24 sm:w-auto shrink-0 rounded-xl overflow-hidden cursor-pointer bg-slate-100 transition-all duration-300 border-2 snap-start",
                                 currentIndex === index
                                     ? "border-primary shadow-md ring-2 ring-primary/20 scale-[0.98]"
                                     : "border-transparent opacity-70 hover:opacity-100 hover:scale-[1.02]"
