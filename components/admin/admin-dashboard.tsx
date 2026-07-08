@@ -468,7 +468,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
                       title="Ver página no site"
                       className="text-slate-500 hover:text-[#323062] hover:bg-slate-100 rounded-xl h-9 px-2.5"
                     >
-                      <Link href={`/vehicles/${vehicle.id}`} target="_blank">
+                      <Link href={`/veiculos/${vehicle.id}`} target="_blank">
                         <ExternalLink className="w-4 h-4" />
                       </Link>
                     </Button>

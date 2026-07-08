@@ -2,25 +2,24 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://vipveiculos.com.br/sitemap.xml
+Sitemap: https://vipveiculosriogrande.com.br/sitemap.xml
 
 # Specific crawl delays
 Crawl-delay: 1
 
-# Block crawling of development files
+# Block crawling of development files and admin area
 Disallow: /_next/
 Disallow: /api/
 Disallow: *.json
+Disallow: /admin/
+Disallow: /admin
 
-# Allow important pages
+# Allow important pages explicitly
 Allow: /
-Allow: /about
-Allow: /vehicles
+Allow: /sobre
+Allow: /veiculos
+Allow: /veiculos/
+Allow: /vender
 
-# SEO optimization
 # Allow crawling of CSS and JS for better rendering
 Allow: /_next/static/
-
-# Block sensitive areas (if any)
-# Disallow: /admin/
-# Disallow: /private/

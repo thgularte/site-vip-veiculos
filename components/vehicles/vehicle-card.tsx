@@ -102,7 +102,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
                         asChild
                         className="flex-1 bg-[#323062] hover:bg-[#2A1770] text-white shadow-sm hover:shadow-md h-11 sm:h-12 rounded-xl font-bold text-xs sm:text-sm active:scale-[0.98] transition-all"
                     >
-                        <Link href={`/vehicles/${vehicle.id}`}>
+                        <Link href={`/veiculos/${vehicle.id}`}>
                             Ver Detalhes
                         </Link>
                     </Button>

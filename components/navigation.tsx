@@ -12,9 +12,9 @@ export function Navigation() {
 
   const navItems = [
     { href: "/", label: "Início" },
-    { href: "/vehicles", label: "Veículos" },
-    { href: "/about", label: "Sobre Nós" },
-    { href: "/sell", label: "Venda seu Carro" },
+    { href: "/veiculos", label: "Veículos" },
+    { href: "/sobre", label: "Sobre Nós" },
+    { href: "/vender", label: "Venda seu Carro" },
   ];
 
   return (

@@ -7,23 +7,23 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Sobre Nós - Nossa História e Valores",
+  title: "Sobre Nós | Nossa História e Tradição em Rio Grande",
   description:
-    "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte. Mais de 15 anos de experiência no mercado automobilístico com valores de respeito, qualidade e confiança.",
+    "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte em Rio Grande - RS. Mais de 15 anos de tradição, confiança, transparência e respeito no mercado automobilístico.",
   keywords: [
     "história VipVeículos",
+    "Vip Veículos Rio Grande",
     "Fábio Gularte",
-    "empresa automobilística Rio Grande",
-    "valores da empresa",
-    "equipe VipVeículos",
-    "Marco vendedor",
-    "15 anos experiência",
+    "empresa automobilística Rio Grande RS",
+    "concessionária confiável RS",
+    "loja de carros tradição RS",
+    "15 anos experiência carros",
   ],
   openGraph: {
-    title: "Sobre Nós - VipVeículos",
+    title: "Sobre Nós - VipVeículos Rio Grande",
     description:
-      "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte. Mais de 15 anos de experiência no mercado automobilístico.",
-    url: "https://vipveiculos.com.br/about",
+      "Conheça a história da VipVeículos, fundada em 2008 por Fábio Gularte. Mais de 15 anos de tradição no mercado automobilístico de Rio Grande - RS.",
+    url: "https://vipveiculosriogrande.com.br/sobre",
   },
 };
 

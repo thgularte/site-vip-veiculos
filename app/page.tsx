@@ -87,7 +87,7 @@ export default function HomePage() {
                   size="lg"
                   className="w-full sm:w-auto bg-[#D60404] hover:bg-[#A81818] text-white font-extrabold h-13 py-4 px-8 rounded-xl shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all"
                 >
-                  <Link href="/vehicles">Ver Veículos em Estoque</Link>
+                  <Link href="/veiculos">Ver Veículos em Estoque</Link>
                 </Button>
                 <Button
                   asChild
@@ -95,7 +95,7 @@ export default function HomePage() {
                   size="lg"
                   className="w-full sm:w-auto border-2 border-[#323062] text-[#323062] hover:bg-[#323062] hover:text-white font-bold h-13 py-4 px-8 rounded-xl active:scale-[0.98] transition-all"
                 >
-                  <Link href="/about">Conheça Nossa História</Link>
+                  <Link href="/sobre">Conheça Nossa História</Link>
                 </Button>
               </div>
             </div>
@@ -385,7 +385,7 @@ export default function HomePage() {
               size="lg"
               className="w-full sm:w-auto bg-[#D60404] hover:bg-[#A81818] text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-xl shadow-red-600/30 active:scale-[0.98] transition-all text-base"
             >
-              <Link href="/vehicles">Ver Todos os Veículos</Link>
+              <Link href="/veiculos">Ver Todos os Veículos</Link>
             </Button>
           </div>
         </div>

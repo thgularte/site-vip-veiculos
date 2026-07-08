@@ -40,7 +40,7 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
             O veículo que você está procurando pode ter sido removido, arquivado ou o endereço digitado está incorreto.
           </p>
           <Button asChild className="bg-[#D60404] hover:bg-[#A81818] text-white">
-            <Link href="/vehicles">
+            <Link href="/veiculos">
               <ArrowLeft className="w-4 h-4 mr-2" /> Voltar para o Catálogo
             </Link>
           </Button>
@@ -71,7 +71,7 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
 
       <main className="container mx-auto max-w-7xl px-4 py-8">
         <Link
-          href="/vehicles"
+          href="/veiculos"
           className="inline-flex items-center text-slate-600 hover:text-primary mb-6 transition-colors font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />

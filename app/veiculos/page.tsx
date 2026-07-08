@@ -4,26 +4,26 @@ import { vehicles } from "@/lib/vehicles";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Veículos Disponíveis - Carros de Qualidade",
+  title: "Veículos Disponíveis | Estoque Seminovos e Usados",
   description:
-    "Explore nossa seleção de 21 veículos de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Renault, Honda e Ford. Carros seminovos revisados com garantia em Rio Grande - RS.",
+    "Explore nosso estoque atualizado de veículos revisados de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Toyota, Honda, Renault e Ford. Carros seminovos com garantia e procedência em Rio Grande - RS.",
   keywords: [
-    "carros à venda Rio Grande",
-    "Chevrolet usados",
+    "estoque carros Rio Grande",
+    "carros à venda Rio Grande RS",
+    "Chevrolet usados RS",
     "Volkswagen seminovos",
-    "Fiat usado",
+    "Fiat seminovo",
     "Hyundai Rio Grande",
-    "Renault usado",
-    "Honda seminovo",
-    "Ford usado",
-    "veículos revisados",
-    "carros com garantia",
+    "Toyota seminovo RS",
+    "Honda usado RS",
+    "veículos revisados Rio Grande",
+    "carros com garantia RS",
   ],
   openGraph: {
-    title: "Veículos Disponíveis - VipVeículos",
+    title: "Estoque de Veículos - VipVeículos Rio Grande",
     description:
-      "Explore nossa seleção de 21 veículos de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Renault, Honda e Ford.",
-    url: "https://vipveiculos.com.br/vehicles",
+      "Explore nosso estoque de veículos revisados de qualidade. Carros seminovos com garantia e procedência em Rio Grande - RS.",
+    url: "https://vipveiculosriogrande.com.br/veiculos",
   },
 };
 

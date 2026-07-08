@@ -1,26 +1,42 @@
 import { MetadataRoute } from "next";
+import { vehicles } from "@/lib/vehicles";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://vipveiculos.com.br";
+  const baseUrl = "https://vipveiculosriogrande.com.br";
 
-  return [
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 1,
+      priority: 1.0,
     },
     {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/vehicles`,
+      url: `${baseUrl}/veiculos`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/vender`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/sobre`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
+
+  const vehicleRoutes: MetadataRoute.Sitemap = vehicles.map((vehicle) => ({
+    url: `${baseUrl}/veiculos/${vehicle.id}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...vehicleRoutes];
 }
