@@ -189,7 +189,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               size="sm"
               className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-[#323062] font-medium transition-all"
             >
-              <Link href="/vehicles" target="_blank">
+              <Link href="/veiculos" target="_blank">
                 <ExternalLink className="w-4 h-4 mr-1.5" /> Ver Site / Catálogo
               </Link>
             </Button>

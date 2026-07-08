@@ -6,7 +6,6 @@ import {
   formatGoogleDriveUrl,
   extractGoogleDriveId,
   isGoogleDriveUrl,
-  compressImageFile,
   getDriveThumbnailFallback,
 } from "@/lib/drive-helper";
 import {
@@ -106,9 +105,7 @@ export function VehicleFormModal({
   
   // Interactive N-Photo Suite State
   const [photos, setPhotos] = useState<string[]>([]);
-  const [photoMode, setPhotoMode] = useState<"link" | "upload">("link");
   const [linkInput, setLinkInput] = useState("");
-  const [isCompressing, setIsCompressing] = useState(false);
   const [showDriveHelp, setShowDriveHelp] = useState(false);
 
   // Other vehicle details
@@ -146,7 +143,6 @@ export function VehicleFormModal({
       }
       setPhotos(initialPhotos);
       setLinkInput("");
-      setPhotoMode("link");
       
       setFeatures(initialData.features || []);
       setExtras(initialData.extras || ["Aceitamos troca"]);
@@ -166,7 +162,6 @@ export function VehicleFormModal({
       
       setPhotos([]);
       setLinkInput("");
-      setPhotoMode("link");
       
       setFeatures(["Direção Hidráulica", "Vidros Elétricos", "Ar Condicionado", "IPVA Pago"]);
       setExtras(["Aceitamos troca"]);
@@ -193,28 +188,6 @@ export function VehicleFormModal({
     }
     setPhotos(newPhotos);
     setLinkInput("");
-  };
-
-  const handleMultiFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    try {
-      setIsCompressing(true);
-      const newPhotos = [...photos];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const compressed = await compressImageFile(file, 1000, 0.82);
-        if (!newPhotos.includes(compressed)) {
-          newPhotos.push(compressed);
-        }
-      }
-      setPhotos(newPhotos);
-    } catch (err) {
-      console.error("Erro ao otimizar e carregar imagens locais:", err);
-    } finally {
-      setIsCompressing(false);
-    }
   };
 
   const handleMakeCover = (index: number) => {
@@ -475,123 +448,69 @@ export function VehicleFormModal({
               </div>
             </div>
 
-            {/* Mode Tabs */}
+            {/* Link input ONLY */}
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center bg-slate-200/80 p-1 rounded-lg">
-                  <button
-                    type="button"
-                    onClick={() => setPhotoMode("link")}
-                    className={`px-3.5 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${
-                      photoMode === "link"
-                        ? "bg-white text-[#323062] shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <LinkIcon className="w-3.5 h-3.5 text-[#D60404]" /> Colar Link(s) / Google Drive
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPhotoMode("upload")}
-                    className={`px-3.5 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${
-                      photoMode === "upload"
-                        ? "bg-white text-[#323062] shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    <Upload className="w-3.5 h-3.5 text-blue-600" /> Enviar N Arquivos (Computador/Celular)
-                  </button>
-                </div>
-
-                {photoMode === "link" && (
-                  <button
-                    type="button"
-                    onClick={() => setShowDriveHelp(!showDriveHelp)}
-                    className="text-xs text-blue-600 hover:underline flex items-center gap-1 font-semibold"
-                  >
-                    <HelpCircle className="w-3.5 h-3.5" /> Como pegar o link no Drive?
-                  </button>
-                )}
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Adicionar Links de Fotos (Google Drive / Web)
+                </span>
+                
+                <button
+                  type="button"
+                  onClick={() => setShowDriveHelp(!showDriveHelp)}
+                  className="text-xs text-blue-600 hover:underline flex items-center gap-1 font-semibold"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" /> Como pegar o link no Drive?
+                </button>
               </div>
 
-              {/* Tab 1: Link input */}
-              {photoMode === "link" ? (
-                <div className="space-y-3">
-                  <div className="flex flex-col sm:flex-row gap-2">
-                    <Input
-                      placeholder="Cole aqui o link do Google Drive (ex: https://drive.google...) ou link de imagem web. Você pode colar vários separados por vírgula!"
-                      value={linkInput}
-                      onChange={(e) => setLinkInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          handleAddLink();
-                        }
-                      }}
-                      className="h-11 text-sm bg-white border-slate-300 focus:border-primary flex-1 shadow-sm"
-                    />
-                    <Button
-                      type="button"
-                      onClick={handleAddLink}
-                      disabled={!linkInput.trim()}
-                      className="bg-[#323062] hover:bg-[#2A1770] text-white font-semibold h-11 px-5 shrink-0 shadow-sm"
-                    >
-                      <Plus className="w-4 h-4 mr-1.5" /> Adicionar à Galeria
-                    </Button>
-                  </div>
-
-                  {detectedDriveId && (
-                    <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-xs text-blue-900 animate-in fade-in duration-200">
-                      <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
-                      <span>
-                        <strong>Link do Google Drive Detectado!</strong> ID: <code className="bg-blue-100 px-1 rounded font-mono">{detectedDriveId}</code> — Será convertido automaticamente para alta velocidade.
-                      </span>
-                    </div>
-                  )}
-
-                  {showDriveHelp && (
-                    <div className="p-3.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 space-y-2 shadow-inner animate-in fade-in slide-in-from-top-2 duration-200">
-                      <p className="font-bold text-slate-800 flex items-center gap-1.5">
-                        💡 Passo a passo para usar fotos do Google Drive:
-                      </p>
-                      <ol className="list-decimal list-inside space-y-1 ml-1 text-slate-600">
-                        <li>No seu Google Drive, clique com o <strong>botão direito</strong> na foto do carro.</li>
-                        <li>Selecione <strong>Compartilhar ➔ Compartilhar</strong>.</li>
-                        <li>Em &quot;Acesso geral&quot;, mude de <em>Restrito</em> para <strong className="text-green-700">&quot;Qualquer pessoa com o link&quot;</strong>.</li>
-                        <li>Clique em <strong>Copiar link</strong> e cole no campo acima!</li>
-                      </ol>
-                    </div>
-                  )}
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input
+                    placeholder="Cole aqui o link do Google Drive (ex: https://drive.google...) ou link de imagem web. Você pode colar vários separados por vírgula!"
+                    value={linkInput}
+                    onChange={(e) => setLinkInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddLink();
+                      }
+                    }}
+                    className="h-11 text-sm bg-white border-slate-300 focus:border-primary flex-1 shadow-sm"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleAddLink}
+                    disabled={!linkInput.trim()}
+                    className="bg-[#323062] hover:bg-[#2A1770] text-white font-semibold h-11 px-5 shrink-0 shadow-sm"
+                  >
+                    <Plus className="w-4 h-4 mr-1.5" /> Adicionar à Galeria
+                  </Button>
                 </div>
-              ) : (
-                /* Tab 2: Multi-file Upload Dropzone */
-                <div className="space-y-3">
-                  <div className="border-2 border-dashed border-slate-300 hover:border-[#D60404] rounded-xl p-6 bg-white hover:bg-red-50/20 transition-all text-center relative cursor-pointer group shadow-sm">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleMultiFileUpload}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                        {isCompressing ? (
-                          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                          <Upload className="w-6 h-6" />
-                        )}
-                      </div>
-                      <p className="font-semibold text-sm text-slate-800">
-                        {isCompressing ? "⏳ Otimizando fotos e adicionando..." : "Clique aqui para selecionar N fotos do computador ou celular"}
-                      </p>
-                      <p className="text-xs text-slate-500 max-w-sm">
-                        Selecione <strong>várias imagens de uma só vez</strong> (segurando Ctrl ou Shift). As fotos serão otimizadas no navegador para carregamento instantâneo.
-                      </p>
-                    </div>
+
+                {detectedDriveId && (
+                  <div className="p-2.5 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-xs text-blue-900 animate-in fade-in duration-200">
+                    <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>
+                      <strong>Link do Google Drive Detectado!</strong> ID: <code className="bg-blue-100 px-1 rounded font-mono">{detectedDriveId}</code> — Será convertido automaticamente para alta velocidade.
+                    </span>
                   </div>
-                </div>
-              )}
+                )}
+
+                {showDriveHelp && (
+                  <div className="p-3.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-700 space-y-2 shadow-inner animate-in fade-in slide-in-from-top-2 duration-200">
+                    <p className="font-bold text-slate-800 flex items-center gap-1.5">
+                      💡 Passo a passo para usar fotos do Google Drive:
+                    </p>
+                    <ol className="list-decimal list-inside space-y-1 ml-1 text-slate-600">
+                      <li>No seu Google Drive, clique com o <strong>botão direito</strong> na foto do carro.</li>
+                      <li>Selecione <strong>Compartilhar ➔ Compartilhar</strong>.</li>
+                      <li>Em &quot;Acesso geral&quot;, mude de <em>Restrito</em> para <strong className="text-green-700">&quot;Qualquer pessoa com o link&quot;</strong>.</li>
+                      <li>Clique em <strong>Copiar link</strong> e cole no campo acima!</li>
+                    </ol>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Visual N-Photo Grid */}
@@ -627,6 +546,16 @@ export function VehicleFormModal({
                           )}
                         </div>
 
+                        {/* Floating Delete Button */}
+                        <button
+                          type="button"
+                          onClick={() => handleRemovePhoto(index)}
+                          title="Excluir imagem"
+                          className="absolute top-2 right-2 z-20 w-7 h-7 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-md active:scale-95 transition-all"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+
                         {/* Thumbnail Image */}
                         <div className="w-full h-36 relative bg-slate-100 overflow-hidden">
                           <img
@@ -646,50 +575,52 @@ export function VehicleFormModal({
                         </div>
 
                         {/* Card Footer Actions */}
-                        <div className="p-2 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-1">
-                          {!isCover ? (
+                        <div className="p-2 bg-slate-50 border-t border-slate-100 flex flex-col gap-1.5">
+                          <div className="flex items-center justify-between w-full">
+                            {!isCover ? (
+                              <button
+                                type="button"
+                                onClick={() => handleMakeCover(index)}
+                                title="Transformar na foto de capa principal"
+                                className="text-[11px] font-bold text-[#323062] hover:text-[#D60404] flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-slate-200/70 transition-colors w-full justify-center border border-slate-200 bg-white shadow-xs"
+                              >
+                                <Star className="w-3 h-3 text-amber-500 fill-amber-500 shrink-0" /> Tornar Capa
+                              </button>
+                            ) : (
+                              <span className="text-[11px] font-bold text-slate-500 px-2 py-1 flex items-center gap-1 w-full justify-center bg-slate-100 rounded-lg border border-slate-200">
+                                <Check className="w-3 h-3 text-green-600 shrink-0" /> Foto 1 (Capa)
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-center gap-1 bg-white border border-slate-200 rounded-lg p-0.5">
                             <button
                               type="button"
-                              onClick={() => handleMakeCover(index)}
-                              title="Transformar na foto de capa principal"
-                              className="text-[11px] font-semibold text-[#323062] hover:text-[#D60404] flex items-center gap-1 px-1.5 py-1 rounded hover:bg-slate-200/70 transition-colors"
+                              disabled={index === 0}
+                              onClick={() => handleMoveLeft(index)}
+                              title="Mover para a esquerda"
+                              className="flex-1 p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex justify-center"
                             >
-                              <Star className="w-3 h-3 text-amber-500" /> Tornar Capa
+                              <ArrowLeft className="w-4 h-4" />
                             </button>
-                          ) : (
-                            <span className="text-[11px] font-bold text-slate-400 px-1.5 py-1 flex items-center gap-1">
-                              <Check className="w-3 h-3 text-green-600" /> Foto 1 (Capa)
-                            </span>
-                          )}
 
-                          <div className="flex items-center gap-0.5">
-                            {index > 0 && (
-                              <button
-                                type="button"
-                                onClick={() => handleMoveLeft(index)}
-                                title="Mover para a esquerda"
-                                className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors"
-                              >
-                                <ArrowLeft className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                            {index < photos.length - 1 && (
-                              <button
-                                type="button"
-                                onClick={() => handleMoveRight(index)}
-                                title="Mover para a direita"
-                                className="p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-200 rounded transition-colors"
-                              >
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </button>
-                            )}
                             <button
                               type="button"
                               onClick={() => handleRemovePhoto(index)}
-                              title="Remover foto"
-                              className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-colors ml-0.5"
+                              title="Excluir imagem"
+                              className="flex-1 p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors flex justify-center border-x border-slate-100"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+
+                            <button
+                              type="button"
+                              disabled={index === photos.length - 1}
+                              onClick={() => handleMoveRight(index)}
+                              title="Mover para a direita"
+                              className="flex-1 p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-md disabled:opacity-30 disabled:hover:bg-transparent transition-colors flex justify-center"
+                            >
+                              <ArrowRight className="w-4 h-4" />
                             </button>
                           </div>
                         </div>
@@ -894,7 +825,6 @@ export function VehicleFormModal({
             </Button>
             <Button
               type="submit"
-              disabled={isCompressing}
               className="bg-[#D60404] hover:bg-[#A81818] text-white px-8 font-semibold shadow-md shadow-red-500/20"
             >
               <Check className="w-4 h-4 mr-2" />

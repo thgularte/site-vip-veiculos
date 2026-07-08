@@ -1,6 +1,10 @@
 export function extractGoogleDriveId(input: string): string | null {
   if (!input) return null;
   const trimmed = input.trim();
+  // Se for uma imagem local codificada em Base64 (Data URL), não é um ID do Drive
+  if (trimmed.startsWith("data:")) {
+    return null;
+  }
   // Check if it's already just a Google Drive ID (25 to 35 characters of alphanumeric, hyphens, underscores)
   if (/^[-a-zA-Z0-9_]{25,35}$/.test(trimmed)) {
     return trimmed;

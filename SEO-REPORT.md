@@ -136,13 +136,13 @@ npm install @next/third-parties
 - **Schema**: Organization + WebSite
 - **Keywords**: VipVeículos, carros usados, Rio Grande
 
-### Sobre (/about)
+### Sobre (/sobre)
 
 - **Title**: "Sobre Nós - Nossa História e Valores"
 - **Description**: História da empresa e fundador
 - **Keywords**: Fábio Gularte, história, valores
 
-### Veículos (/vehicles)
+### Veículos (/veiculos)
 
 - **Title**: "Veículos Disponíveis - Carros de Qualidade"
 - **Description**: Catálogo de 21 veículos

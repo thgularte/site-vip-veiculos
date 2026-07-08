@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Vehicle, vehicles as defaultVehicles } from "@/lib/vehicles";
+import { saveVehiclesToDB, getVehiclesFromDB } from "@/lib/db";
 
 const STORAGE_KEY = "vipveiculos_local_data_v1";
 
@@ -9,40 +10,47 @@ export function useVehicles() {
   const [vehiclesList, setVehiclesList] = useState<Vehicle[]>(defaultVehicles);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load from localStorage on mount
+  // Load from database on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed: Vehicle[] = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setVehiclesList(parsed);
+    async function loadData() {
+      try {
+        const stored = await getVehiclesFromDB();
+        if (stored && Array.isArray(stored) && stored.length > 0) {
+          setVehiclesList(stored);
         } else {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultVehicles));
+          // Check localStorage as legacy fallback
+          const localStored = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+          if (localStored) {
+            const parsed = JSON.parse(localStored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setVehiclesList(parsed);
+              await saveVehiclesToDB(parsed);
+              return;
+            }
+          }
+          await saveVehiclesToDB(defaultVehicles);
           setVehiclesList(defaultVehicles);
         }
-      } else {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultVehicles));
+      } catch (e) {
+        console.error("Erro ao ler do banco de dados local:", e);
         setVehiclesList(defaultVehicles);
+      } finally {
+        setIsLoaded(true);
       }
-    } catch (e) {
-      console.error("Erro ao ler do localStorage:", e);
-      setVehiclesList(defaultVehicles);
-    } finally {
-      setIsLoaded(true);
     }
+    loadData();
   }, []);
 
   // Listen for custom storage events across components/tabs
   useEffect(() => {
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const stored = await getVehiclesFromDB();
         if (stored) {
-          setVehiclesList(JSON.parse(stored));
+          setVehiclesList(stored);
         }
       } catch (e) {
-        console.error("Erro no event listener:", e);
+        console.error("Erro no event listener do banco:", e);
       }
     };
     window.addEventListener("vipveiculos_storage_update", handleUpdate);
@@ -61,12 +69,18 @@ export function useVehicles() {
         id: maxId + 1,
       };
       const updated = [newVehicle, ...prev];
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      
+      // Async save to IndexedDB (virtually unlimited quota for images)
+      saveVehiclesToDB(updated).then(() => {
+        // Fallback save to localStorage (with try/catch to ignore QuotaExceededError)
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        } catch (e) {
+          console.warn("localStorage quota exceeded, but successfully saved to IndexedDB!");
+        }
         window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      } catch (e) {
-        console.error("Erro ao salvar veículo no localStorage:", e);
-      }
+      });
+
       return updated;
     });
   }, []);
@@ -74,12 +88,16 @@ export function useVehicles() {
   const updateVehicle = useCallback((updatedVehicle: Vehicle) => {
     setVehiclesList((prev) => {
       const updated = prev.map((v) => (v.id === updatedVehicle.id ? updatedVehicle : v));
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      
+      saveVehiclesToDB(updated).then(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        } catch (e) {
+          console.warn("localStorage quota exceeded, but successfully saved to IndexedDB!");
+        }
         window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      } catch (e) {
-        console.error("Erro ao atualizar veículo no localStorage:", e);
-      }
+      });
+
       return updated;
     });
   }, []);
@@ -87,12 +105,16 @@ export function useVehicles() {
   const deleteVehicle = useCallback((id: number) => {
     setVehiclesList((prev) => {
       const updated = prev.filter((v) => v.id !== id);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      
+      saveVehiclesToDB(updated).then(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        } catch (e) {
+          console.warn("localStorage error, but successfully updated in IndexedDB!");
+        }
         window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      } catch (e) {
-        console.error("Erro ao remover veículo no localStorage:", e);
-      }
+      });
+
       return updated;
     });
   }, []);
@@ -105,24 +127,30 @@ export function useVehicles() {
         }
         return v;
       });
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      
+      saveVehiclesToDB(updated).then(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        } catch (e) {
+          console.warn("localStorage error, but successfully updated in IndexedDB!");
+        }
         window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      } catch (e) {
-        console.error("Erro ao arquivar/desarquivar no localStorage:", e);
-      }
+      });
+
       return updated;
     });
   }, []);
 
   const resetToDefault = useCallback(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultVehicles));
+    saveVehiclesToDB(defaultVehicles).then(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultVehicles));
+      } catch (e) {
+        console.error("Erro ao resetar localStorage:", e);
+      }
       setVehiclesList(defaultVehicles);
       window.dispatchEvent(new Event("vipveiculos_storage_update"));
-    } catch (e) {
-      console.error("Erro ao resetar localStorage:", e);
-    }
+    });
   }, []);
 
   return {

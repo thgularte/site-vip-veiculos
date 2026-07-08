@@ -16,7 +16,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     return (
         <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-border/50 bg-white/50 backdrop-blur-sm">
             <div className="relative overflow-hidden">
-                <Link href={`/vehicles/${vehicle.id}`}>
+                <Link href={`/veiculos/${vehicle.id}`}>
                     <Image
                         src={formatGoogleDriveUrl(vehicle.image || "/placeholder.svg")}
                         alt={`${vehicle.brand} ${vehicle.model}`}
@@ -46,7 +46,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             <CardHeader className="pb-3">
                 <div className="space-y-1">
                     <CardTitle className="text-xl font-bold text-slate-800 group-hover:text-primary transition-colors">
-                        <Link href={`/vehicles/${vehicle.id}`}>
+                        <Link href={`/veiculos/${vehicle.id}`}>
                             {vehicle.brand} {vehicle.model}
                         </Link>
                     </CardTitle>
