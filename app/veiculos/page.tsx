@@ -1,7 +1,9 @@
 import { Navigation } from "@/components/navigation";
 import { VehicleCatalog } from "@/components/vehicles/vehicle-catalog";
-import { vehicles } from "@/lib/vehicles";
+import { getVehicles } from "@/lib/supabase-db";
 import { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Veículos Disponíveis | Estoque Seminovos e Usados",
@@ -27,7 +29,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function VehiclesPage() {
+export default async function VehiclesPage() {
+  let dbVehicles: any[] = [];
+  try {
+    dbVehicles = await getVehicles();
+  } catch (e) {
+    console.error("Error loading vehicles for catalog page:", e);
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Navigation />
@@ -51,7 +60,7 @@ export default function VehiclesPage() {
         </div>
       </section>
 
-      <VehicleCatalog initialVehicles={vehicles} />
+      <VehicleCatalog initialVehicles={dbVehicles} />
     </div>
   );
 }

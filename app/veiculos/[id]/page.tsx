@@ -1,11 +1,19 @@
-import { vehicles } from "@/lib/vehicles";
+import { getVehicleById, getVehicles } from "@/lib/supabase-db";
 import { VehicleDetailView } from "@/components/vehicles/vehicle-detail-view";
 import { Metadata, ResolvingMetadata } from "next";
 
-export function generateStaticParams() {
-    return vehicles.map((vehicle) => ({
-        id: vehicle.id.toString(),
-    }));
+export const dynamic = "force-dynamic";
+
+export async function generateStaticParams() {
+    try {
+        const dbVehicles = await getVehicles();
+        return dbVehicles.map((vehicle) => ({
+            id: vehicle.id.toString(),
+        }));
+    } catch (e) {
+        console.error("Error generating static params:", e);
+        return [];
+    }
 }
 
 export async function generateMetadata(
@@ -13,7 +21,12 @@ export async function generateMetadata(
     parent: ResolvingMetadata
 ): Promise<Metadata> {
     const id = parseInt(params.id);
-    const vehicle = vehicles.find((v) => v.id === id);
+    let vehicle = null;
+    try {
+        vehicle = await getVehicleById(id);
+    } catch (e) {
+        console.error("Error fetching vehicle for metadata:", e);
+    }
 
     if (!vehicle) {
         return {
@@ -21,12 +34,7 @@ export async function generateMetadata(
         };
     }
 
-    const priceFormatted = vehicle.price.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-        maximumFractionDigits: 0,
-    });
-
+    const priceFormatted = vehicle.price;
     const title = `${vehicle.brand} ${vehicle.model} ${vehicle.version} (${vehicle.modelYear}) - ${priceFormatted}`;
     const description = `${vehicle.brand} ${vehicle.model} ${vehicle.version} ano ${vehicle.modelYear}/${vehicle.year}, cor ${vehicle.color}, ${vehicle.km} km rodados, câmbio ${vehicle.transmission}, ${vehicle.fuel}. Confira fotos, opcionais e garantia na VipVeículos em Rio Grande - RS.`;
     const image = vehicle.image || "/O home.png";
@@ -64,9 +72,14 @@ export async function generateMetadata(
     };
 }
 
-export default function VehicleDetailsPage({ params }: { params: { id: string } }) {
+export default async function VehicleDetailsPage({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);
-    const vehicle = vehicles.find((v) => v.id === id);
+    let vehicle = null;
+    try {
+        vehicle = await getVehicleById(id);
+    } catch (e) {
+        console.error("Error loading vehicle details page:", e);
+    }
 
-    return <VehicleDetailView id={id} initialVehicle={vehicle} />;
+    return <VehicleDetailView id={id} initialVehicle={vehicle || undefined} />;
 }

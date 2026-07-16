@@ -1,156 +1,137 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Vehicle, vehicles as defaultVehicles } from "@/lib/vehicles";
-import { saveVehiclesToDB, getVehiclesFromDB } from "@/lib/db";
-
-const STORAGE_KEY = "vipveiculos_local_data_v1";
+import { Vehicle } from "@/lib/vehicles";
 
 export function useVehicles() {
-  const [vehiclesList, setVehiclesList] = useState<Vehicle[]>(defaultVehicles);
+  const [vehiclesList, setVehiclesList] = useState<Vehicle[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load from database on mount
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const stored = await getVehiclesFromDB();
-        if (stored && Array.isArray(stored) && stored.length > 0) {
-          setVehiclesList(stored);
-        } else {
-          // Check localStorage as legacy fallback
-          const localStored = typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
-          if (localStored) {
-            const parsed = JSON.parse(localStored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setVehiclesList(parsed);
-              await saveVehiclesToDB(parsed);
-              return;
-            }
-          }
-          await saveVehiclesToDB(defaultVehicles);
-          setVehiclesList(defaultVehicles);
-        }
-      } catch (e) {
-        console.error("Erro ao ler do banco de dados local:", e);
-        setVehiclesList(defaultVehicles);
-      } finally {
-        setIsLoaded(true);
+  // Load from API on mount
+  const loadData = useCallback(async () => {
+    try {
+      const res = await fetch("/api/vehicles");
+      if (res.ok) {
+        const data = await res.json();
+        setVehiclesList(data);
+      } else {
+        console.error("Failed to load vehicles from API:", res.statusText);
       }
+    } catch (e) {
+      console.error("Erro ao ler do banco de dados:", e);
+    } finally {
+      setIsLoaded(true);
     }
-    loadData();
   }, []);
 
-  // Listen for custom storage events across components/tabs
   useEffect(() => {
-    const handleUpdate = async () => {
-      try {
-        const stored = await getVehiclesFromDB();
-        if (stored) {
-          setVehiclesList(stored);
-        }
-      } catch (e) {
-        console.error("Erro no event listener do banco:", e);
-      }
+    loadData();
+  }, [loadData]);
+
+  // Listen for custom storage events or api updates across components/tabs
+  useEffect(() => {
+    const handleUpdate = () => {
+      loadData();
     };
     window.addEventListener("vipveiculos_storage_update", handleUpdate);
-    window.addEventListener("storage", handleUpdate);
     return () => {
       window.removeEventListener("vipveiculos_storage_update", handleUpdate);
-      window.removeEventListener("storage", handleUpdate);
     };
-  }, []);
+  }, [loadData]);
 
-  const addVehicle = useCallback((newVehicleData: Omit<Vehicle, "id">) => {
-    setVehiclesList((prev) => {
-      const maxId = prev.length > 0 ? Math.max(...prev.map((v) => v.id)) : 0;
-      const newVehicle: Vehicle = {
-        ...newVehicleData,
-        id: maxId + 1,
-      };
-      const updated = [newVehicle, ...prev];
-      
-      // Async save to IndexedDB (virtually unlimited quota for images)
-      saveVehiclesToDB(updated).then(() => {
-        // Fallback save to localStorage (with try/catch to ignore QuotaExceededError)
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        } catch (e) {
-          console.warn("localStorage quota exceeded, but successfully saved to IndexedDB!");
-        }
+  const addVehicle = useCallback(async (newVehicleData: Omit<Vehicle, "id">) => {
+    try {
+      const res = await fetch("/api/vehicles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newVehicleData),
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        setVehiclesList((prev) => [saved, ...prev]);
         window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      });
-
-      return updated;
-    });
-  }, []);
-
-  const updateVehicle = useCallback((updatedVehicle: Vehicle) => {
-    setVehiclesList((prev) => {
-      const updated = prev.map((v) => (v.id === updatedVehicle.id ? updatedVehicle : v));
-      
-      saveVehiclesToDB(updated).then(() => {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        } catch (e) {
-          console.warn("localStorage quota exceeded, but successfully saved to IndexedDB!");
-        }
-        window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      });
-
-      return updated;
-    });
-  }, []);
-
-  const deleteVehicle = useCallback((id: number) => {
-    setVehiclesList((prev) => {
-      const updated = prev.filter((v) => v.id !== id);
-      
-      saveVehiclesToDB(updated).then(() => {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        } catch (e) {
-          console.warn("localStorage error, but successfully updated in IndexedDB!");
-        }
-        window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      });
-
-      return updated;
-    });
-  }, []);
-
-  const toggleArchive = useCallback((id: number) => {
-    setVehiclesList((prev) => {
-      const updated = prev.map((v) => {
-        if (v.id === id) {
-          return { ...v, archived: !v.archived };
-        }
-        return v;
-      });
-      
-      saveVehiclesToDB(updated).then(() => {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        } catch (e) {
-          console.warn("localStorage error, but successfully updated in IndexedDB!");
-        }
-        window.dispatchEvent(new Event("vipveiculos_storage_update"));
-      });
-
-      return updated;
-    });
-  }, []);
-
-  const resetToDefault = useCallback(() => {
-    saveVehiclesToDB(defaultVehicles).then(() => {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultVehicles));
-      } catch (e) {
-        console.error("Erro ao resetar localStorage:", e);
+      } else {
+        console.error("Failed to add vehicle via API");
       }
-      setVehiclesList(defaultVehicles);
-      window.dispatchEvent(new Event("vipveiculos_storage_update"));
+    } catch (e) {
+      console.error("Error adding vehicle:", e);
+    }
+  }, []);
+
+  const updateVehicle = useCallback(async (updatedVehicle: Vehicle) => {
+    try {
+      const res = await fetch(`/api/vehicles/${updatedVehicle.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedVehicle),
+      });
+      if (res.ok) {
+        const saved = await res.json();
+        setVehiclesList((prev) => prev.map((v) => (v.id === saved.id ? saved : v)));
+        window.dispatchEvent(new Event("vipveiculos_storage_update"));
+      } else {
+        console.error("Failed to update vehicle via API");
+      }
+    } catch (e) {
+      console.error("Error updating vehicle:", e);
+    }
+  }, []);
+
+  const deleteVehicle = useCallback(async (id: number) => {
+    try {
+      const res = await fetch(`/api/vehicles/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setVehiclesList((prev) => prev.filter((v) => v.id !== id));
+        window.dispatchEvent(new Event("vipveiculos_storage_update"));
+      } else {
+        console.error("Failed to delete vehicle via API");
+      }
+    } catch (e) {
+      console.error("Error deleting vehicle:", e);
+    }
+  }, []);
+
+  const toggleArchive = useCallback(async (id: number) => {
+    setVehiclesList((prev) => {
+      const current = prev.find((v) => v.id === id);
+      if (!current) return prev;
+      
+      const updated = { ...current, archived: !current.archived };
+      
+      // Async API call to update database
+      fetch(`/api/vehicles/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated),
+      }).then((res) => {
+        if (res.ok) {
+          window.dispatchEvent(new Event("vipveiculos_storage_update"));
+        } else {
+          console.error("Failed to toggle archive status");
+        }
+      });
+
+      return prev.map((v) => (v.id === id ? updated : v));
     });
+  }, []);
+
+  const resetToDefault = useCallback(async () => {
+    try {
+      const res = await fetch("/api/vehicles/reset", {
+        method: "POST",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setVehiclesList(data);
+        window.dispatchEvent(new Event("vipveiculos_storage_update"));
+      } else {
+        console.error("Failed to reset database via API");
+      }
+    } catch (e) {
+      console.error("Error resetting database:", e);
+    }
   }, []);
 
   return {

@@ -1,7 +1,9 @@
 import { MetadataRoute } from "next";
-import { vehicles } from "@/lib/vehicles";
+import { getVehicles } from "@/lib/supabase-db";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://vipveiculosriogrande.com.br";
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -31,12 +33,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const vehicleRoutes: MetadataRoute.Sitemap = vehicles.map((vehicle) => ({
-    url: `${baseUrl}/veiculos/${vehicle.id}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
+  let vehicleRoutes: MetadataRoute.Sitemap = [];
+  try {
+    const dbVehicles = await getVehicles();
+    vehicleRoutes = dbVehicles.map((vehicle) => ({
+      url: `${baseUrl}/veiculos/${vehicle.id}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    }));
+  } catch (e) {
+    console.error("Error generating sitemap:", e);
+  }
 
   return [...staticRoutes, ...vehicleRoutes];
 }
