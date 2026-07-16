@@ -101,7 +101,7 @@ export default function HomePage() {
             </div>
             <div className="relative">
               <Image
-                src="/O home.png"
+                src="/fundador.svg"
                 alt="Interior da loja VipVeículos mostrando ambiente de atendimento aos clientes"
                 width={358}
                 height={514}

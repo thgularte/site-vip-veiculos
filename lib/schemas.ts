@@ -6,8 +6,8 @@ export const organizationSchema = {
   description:
     "Loja de veículos usados e seminovos em Rio Grande - RS, com mais de 15 anos de experiência no mercado automobilístico.",
   url: "https://vipveiculos.com.br",
-  logo: "https://vipveiculos.com.br/logo.png",
-  image: "https://vipveiculos.com.br/O home.png",
+  logo: "https://vipveiculos.com.br/logo_vip.svg",
+  image: "https://vipveiculos.com.br/fundador.svg",
   telephone: "+55 53 3230-0250",
   email: "vipveiculos@gmail.com",
   address: {

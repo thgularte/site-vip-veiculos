@@ -51,7 +51,7 @@ export const metadata: Metadata = {
       "A certeza de uma ótima compra! Mais de 15 anos oferecendo veículos revisados e atendimento humanizado em Rio Grande - RS.",
     images: [
       {
-        url: "/O home.png",
+        url: "/fundador.svg",
         width: 1200,
         height: 630,
         alt: "VipVeículos - Loja de carros em Rio Grande RS",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "VipVeículos | Carros Seminovos e Usados em Rio Grande - RS",
     description:
       "A certeza de uma ótima compra! Mais de 15 anos oferecendo veículos revisados e atendimento humanizado em Rio Grande - RS.",
-    images: ["/O home.png"],
+    images: ["/fundador.svg"],
   },
   verification: {
     google: "google-site-verification-code", // Substituir pelo código real

@@ -14,7 +14,7 @@ export function generatePageMetadata({
   description,
   keywords = [],
   canonical,
-  image = "/O home.png",
+  image = "/fundador.svg",
   type = "website",
 }: PageMetadataProps): Metadata {
   const baseUrl = "https://vipveiculos.com.br";

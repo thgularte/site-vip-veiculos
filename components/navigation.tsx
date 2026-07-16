@@ -25,7 +25,7 @@ export function Navigation() {
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
               <Image
-                src="/logo.png"
+                src="/logo_vip.svg"
                 alt="VipVeículos Logo"
                 width={44}
                 height={44}

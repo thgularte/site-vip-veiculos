@@ -37,7 +37,7 @@ export async function generateMetadata(
     const priceFormatted = vehicle.price;
     const title = `${vehicle.brand} ${vehicle.model} ${vehicle.version} (${vehicle.modelYear}) - ${priceFormatted}`;
     const description = `${vehicle.brand} ${vehicle.model} ${vehicle.version} ano ${vehicle.modelYear}/${vehicle.year}, cor ${vehicle.color}, ${vehicle.km} km rodados, câmbio ${vehicle.transmission}, ${vehicle.fuel}. Confira fotos, opcionais e garantia na VipVeículos em Rio Grande - RS.`;
-    const image = vehicle.image || "/O home.png";
+    const image = vehicle.image || "/fundador.svg";
 
     return {
         title,

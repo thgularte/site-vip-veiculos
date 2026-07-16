@@ -167,7 +167,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <div className="container mx-auto max-w-7xl px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-md flex items-center justify-center shrink-0">
-              <Image src="/logo.png" alt="Logo" width={36} height={36} className="object-contain" />
+              <Image src="/logo_vip.svg" alt="Logo" width={36} height={36} className="object-contain" />
             </div>
             <div>
               <div className="flex items-center gap-2">
