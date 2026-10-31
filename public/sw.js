@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vipveiculos-pwa-v1';
+const CACHE_NAME = 'vipveiculos-pwa-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/veiculos',

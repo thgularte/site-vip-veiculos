@@ -539,7 +539,7 @@ export default function HomePage() {
                 className="flex items-center justify-center gap-2.5"
               >
                 <Instagram className="w-5 h-5 shrink-0" />
-                <span>Seguir @vipveiculos_ agora</span>
+                <span>Seguir @vipveiculos_</span>
               </a>
             </Button>
           </div>

@@ -17,29 +17,29 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     return (
         <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-border/50 bg-white/50 backdrop-blur-sm flex flex-col justify-between">
             <div>
-                <div className="relative overflow-hidden">
-                    <Link href={`/veiculos/${vehicle.id}`}>
+                <div className="relative overflow-hidden aspect-[4/3] sm:aspect-[16/10] bg-slate-900">
+                    <Link href={`/veiculos/${vehicle.id}`} className="block w-full h-full">
                         <Image
                             src={formatGoogleDriveUrl(vehicle.image || "/placeholder.svg")}
                             alt={`${vehicle.brand} ${vehicle.model}`}
-                            width={400}
-                            height={300}
-                            className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                     </Link>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-                    <Badge className="absolute top-4 left-4 bg-primary/90 hover:bg-primary shadow-lg backdrop-blur-sm border-0 font-bold">
+                    <Badge className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-[#323062]/90 hover:bg-[#323062] text-white shadow-md backdrop-blur-sm border-0 font-bold text-xs">
                         {vehicle.modelYear}/{vehicle.year}
                     </Badge>
 
                     {vehicle.extras?.includes("Único dono") && (
-                        <Badge className="absolute top-4 right-4 bg-blue-900/90 hover:bg-blue-900 shadow-lg backdrop-blur-sm border-0">
+                        <Badge className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-blue-900/90 hover:bg-blue-900 text-white shadow-md backdrop-blur-sm border-0 text-xs">
                             Único dono
                         </Badge>
                     )}
                     {vehicle.extras?.includes("Segundo dono") && (
-                        <Badge className="absolute top-4 right-4 bg-indigo-900/90 hover:bg-indigo-900 shadow-lg backdrop-blur-sm border-0">
+                        <Badge className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-indigo-900/90 hover:bg-indigo-900 text-white shadow-md backdrop-blur-sm border-0 text-xs">
                             Segundo dono
                         </Badge>
                     )}
