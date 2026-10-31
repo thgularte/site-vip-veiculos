@@ -55,7 +55,14 @@ export function VehicleFilters({
         });
     };
 
-    const hasActiveFilters = Object.values(filters).some((val) => val !== "all");
+    const hasActiveFilters =
+        Boolean(filters.search.trim()) ||
+        filters.brand !== "all" ||
+        filters.year !== "all" ||
+        filters.color !== "all" ||
+        filters.transmission !== "all" ||
+        filters.maxKm !== "all" ||
+        filters.engine !== "all";
 
     return (
         <div className="space-y-8 p-6 bg-white rounded-xl shadow-sm border border-slate-100 h-fit sticky top-24">

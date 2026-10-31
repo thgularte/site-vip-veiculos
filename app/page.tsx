@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,8 +14,6 @@ import {
   Star,
   Users,
   Instagram,
-  Heart,
-  MessageCircle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -128,7 +127,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-[#323062] mb-4">
               Por que escolher a VipVeículos?
             </h2>
-            <p className="text-[#B9B9B9] text-lg">
+            <p className="text-slate-600 text-lg">
               Qualidade, confiança e experiência em cada negociação
             </p>
           </div>
@@ -139,7 +138,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-[#323062] mb-2">
                   15+ Anos de Experiência
                 </h3>
-                <p className="text-[#B9B9B9]">
+                <p className="text-slate-600 leading-relaxed">
                   Desde 2008 no mercado, garantindo expertise e confiabilidade
                   em cada transação.
                 </p>
@@ -151,7 +150,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-[#323062] mb-2">
                   Veículos de Qualidade
                 </h3>
-                <p className="text-[#B9B9B9]">
+                <p className="text-slate-600 leading-relaxed">
                   Selecionamos cuidadosamente cada veículo para garantir a
                   melhor experiência.
                 </p>
@@ -163,7 +162,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold text-[#323062] mb-2">
                   Atendimento Personalizado
                 </h3>
-                <p className="text-[#B9B9B9]">
+                <p className="text-slate-600 leading-relaxed">
                   Ambiente harmonioso e negociações sérias, tratando cada
                   cliente como família.
                 </p>
@@ -180,12 +179,12 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-[#323062] mb-4">
               O que nossos clientes dizem
             </h2>
-            <p className="text-[#B9B9B9] text-lg">
+            <p className="text-slate-600 text-lg">
               Depoimentos reais de quem confia na VipVeículos
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
               <CardContent className="p-6">
                 <div className="flex mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -195,7 +194,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-[#B9B9B9] mb-4">
+                <p className="text-slate-700 mb-4 leading-relaxed italic">
                   "A negociação lá sempre é resultado de qualidade e satisfação.
                   Loja linda, impecável e produtos excelentes. Parabéns ao
                   Marcos, Fábio e Patrícia..👏"
@@ -208,14 +207,14 @@ export default function HomePage() {
                     <div className="font-semibold text-[#323062]">
                       Rogerio Pereira
                     </div>
-                    <div className="text-sm text-[#B9B9B9]">
+                    <div className="text-sm text-slate-500">
                       Cliente da VipVeículos
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
               <CardContent className="p-6">
                 <div className="flex mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -225,7 +224,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-[#B9B9B9] mb-4">
+                <p className="text-slate-700 mb-4 leading-relaxed italic">
                   "Profissionais extremamente atenciosos, com certeza indico a
                   todos... mais importante: seriedade... obrigada"
                 </p>
@@ -237,14 +236,14 @@ export default function HomePage() {
                     <div className="font-semibold text-[#323062]">
                       Maria Medeiros
                     </div>
-                    <div className="text-sm text-[#B9B9B9]">
+                    <div className="text-sm text-slate-500">
                       Cliente da VipVeículos
                     </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
               <CardContent className="p-6">
                 <div className="flex mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -254,7 +253,7 @@ export default function HomePage() {
                     />
                   ))}
                 </div>
-                <p className="text-[#B9B9B9] mb-4">
+                <p className="text-slate-700 mb-4 leading-relaxed italic">
                   "Profissionais extremamente qualificados e responsáveis! Fiz
                   minha compra, sem mesmo conhecer o veículo! E com certeza
                   estou muito satisfeita com nossa negociação, carro impecável.
@@ -268,7 +267,7 @@ export default function HomePage() {
                     <div className="font-semibold text-[#323062]">
                       Bianca Monks
                     </div>
-                    <div className="text-sm text-[#B9B9B9]">
+                    <div className="text-sm text-slate-500">
                       Cliente da VipVeículos
                     </div>
                   </div>
@@ -375,7 +374,7 @@ export default function HomePage() {
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Encontre seu próximo veículo
           </h2>
-          <p className="text-[#B9B9B9] text-base sm:text-lg max-w-2xl mx-auto font-normal">
+          <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto font-normal">
             Explore nossa seleção de veículos de qualidade, todos revisados e
             com garantia de procedência.
           </p>
@@ -449,13 +448,26 @@ export default function HomePage() {
                       <h3 className="font-bold text-lg text-[#323062] mb-1">
                         Atendimento e Telefone
                       </h3>
-                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                        Telefone Fixo: <span className="font-semibold">(53) 3230-0250</span>
-                        <br />
-                        WhatsApp: <span className="font-semibold">(53) 98413-9110</span>
-                        <br />
-                        WhatsApp: <span className="font-semibold">(53) 99104-3340</span>
-                      </p>
+                      <div className="text-slate-600 text-sm sm:text-base leading-relaxed space-y-1 mt-1">
+                        <div>
+                          <span className="text-slate-500">Telefone Fixo: </span>
+                          <a href="tel:5332300250" className="font-semibold text-[#323062] hover:text-[#D60404] transition-colors underline-offset-2 hover:underline">
+                            (53) 3230-0250
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">WhatsApp: </span>
+                          <a href="https://wa.me/5553984139110?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20ve%C3%ADculos%20da%20VipVe%C3%ADculos." target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700 hover:text-green-800 transition-colors underline-offset-2 hover:underline">
+                            (53) 98413-9110
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">WhatsApp: </span>
+                          <a href="https://wa.me/5553991043340?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20os%20ve%C3%ADculos%20da%20VipVe%C3%ADculos." target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700 hover:text-green-800 transition-colors underline-offset-2 hover:underline">
+                            (53) 99104-3340
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -470,11 +482,20 @@ export default function HomePage() {
                       <h3 className="font-bold text-lg text-[#323062] mb-1">
                         Canais Online
                       </h3>
-                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                        E-mail: <span className="font-semibold">vipveiculos@gmail.com</span>
-                        <br />
-                        Instagram: <span className="font-semibold text-pink-600">@vipveiculos_</span>
-                      </p>
+                      <div className="text-slate-600 text-sm sm:text-base leading-relaxed space-y-1 mt-1">
+                        <div>
+                          <span className="text-slate-500">E-mail: </span>
+                          <a href="mailto:vipveiculos@gmail.com" className="font-semibold text-[#323062] hover:text-[#D60404] transition-colors underline-offset-2 hover:underline">
+                            vipveiculos@gmail.com
+                          </a>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Instagram: </span>
+                          <a href="https://www.instagram.com/vipveiculos_/" target="_blank" rel="noopener noreferrer" className="font-semibold text-pink-600 hover:text-pink-700 transition-colors underline-offset-2 hover:underline">
+                            @vipveiculos_
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -498,69 +519,34 @@ export default function HomePage() {
 
       {/* Instagram CTA Section */}
       <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12 space-y-4">
-            <div className="inline-flex p-3.5 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
-              <Instagram className="w-8 h-8" />
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
-            <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto font-normal">
-              Fique por dentro das novidades! Siga o perfil <span className="font-semibold text-pink-600">@vipveiculos_</span> para acompanhar novas chegadas no pátio, entregas de chaves e ofertas exclusivas em tempo real.
-            </p>
-            <div className="pt-2">
-              <Button
-                asChild
-                className="w-full sm:w-auto bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:opacity-95 text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] text-base"
-              >
-                <a
-                  href="https://www.instagram.com/vipveiculos_/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5"
-                >
-                  <Instagram className="w-5 h-5 shrink-0" />
-                  <span>Seguir @vipveiculos_ agora</span>
-                </a>
-              </Button>
-            </div>
+        <div className="container mx-auto max-w-4xl text-center space-y-5">
+          <div className="inline-flex p-3.5 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
+            <Instagram className="w-8 h-8" />
           </div>
-
-          {/* Instagram Post Grid Preview */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { src: "/happy_customer_1.png", likes: "142", comments: "12", position: "object-center" },
-              { src: "/happy_custumer_2.jpeg", likes: "115", comments: "9", position: "object-top" },
-              { src: "/happy_customer_3.png", likes: "168", comments: "21", position: "object-center" },
-              { src: "/faxada.jpeg", likes: "245", comments: "32", position: "object-center" },
-            ].map((post, idx) => (
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
+          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto font-normal">
+            Fique por dentro das novidades! Siga o perfil <span className="font-semibold text-pink-600">@vipveiculos_</span> para acompanhar novas chegadas no pátio, entregas de chaves e ofertas exclusivas em tempo real.
+          </p>
+          <div className="pt-2">
+            <Button
+              asChild
+              className="w-full sm:w-auto bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:opacity-95 text-white font-extrabold h-14 px-8 py-4 rounded-xl shadow-lg transition-all active:scale-[0.98] text-base"
+            >
               <a
-                key={idx}
                 href="https://www.instagram.com/vipveiculos_/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative aspect-square rounded-2xl overflow-hidden shadow-md group block bg-slate-200"
+                className="flex items-center justify-center gap-2.5"
               >
-                <Image
-                  src={post.src}
-                  alt={`Post do Instagram VipVeículos ${idx + 1}`}
-                  fill
-                  className={`object-cover transition-transform duration-500 group-hover:scale-110 ${post.position}`}
-                />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white font-bold">
-                  <div className="flex items-center gap-1.5">
-                    <Heart className="w-5 h-5 fill-white" />
-                    <span>{post.likes}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <MessageCircle className="w-5 h-5 fill-white" />
-                    <span>{post.comments}</span>
-                  </div>
-                </div>
+                <Instagram className="w-5 h-5 shrink-0" />
+                <span>Seguir @vipveiculos_ agora</span>
               </a>
-            ))}
+            </Button>
           </div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

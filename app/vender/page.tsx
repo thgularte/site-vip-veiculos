@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -270,6 +271,7 @@ export default function SellPage() {
 
                 </div>
             </main>
+            <Footer />
         </div>
     );
 }

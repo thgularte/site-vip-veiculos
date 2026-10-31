@@ -3,14 +3,17 @@
 import { useVehicles } from "@/hooks/use-vehicles";
 import { Vehicle } from "@/lib/vehicles";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { VehicleCard } from "@/components/vehicles/vehicle-card";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Fuel, Gauge, Users, Check, AlertCircle } from "lucide-react";
+import { ArrowLeft, Calendar, Fuel, Gauge, Cog, Check, AlertCircle, Share2, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { VehicleActions } from "@/components/vehicles/vehicle-actions";
 import { VehicleGallery } from "@/components/vehicles/vehicle-gallery";
 import { useMemo } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface VehicleDetailViewProps {
   id: number;
@@ -18,6 +21,7 @@ interface VehicleDetailViewProps {
 }
 
 export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps) {
+  const { toast } = useToast();
   const { vehicles, isLoaded } = useVehicles();
 
   const vehicle = useMemo(() => {
@@ -26,6 +30,34 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
     }
     return initialVehicle || vehicles.find((v) => v.id === id);
   }, [id, vehicles, isLoaded, initialVehicle]);
+
+  const handleShare = async () => {
+    if (!currentVehicle) return;
+
+    const shareData = {
+      title: `${currentVehicle.brand} ${currentVehicle.model} - VipVeículos`,
+      text: `Confira este ${currentVehicle.brand} ${currentVehicle.model} ${currentVehicle.version} na VipVeículos em Rio Grande - RS!`,
+      url: window.location.href,
+    };
+
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        // User closed share dialog
+      }
+    } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link copiado!",
+          description: "O link deste anúncio foi copiado para a área de transferência.",
+        });
+      } catch (err) {
+        console.error("Falha ao copiar:", err);
+      }
+    }
+  };
 
   if (isLoaded && !vehicle && !initialVehicle) {
     return (
@@ -51,6 +83,19 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
 
   const currentVehicle = vehicle || initialVehicle;
 
+  const similarVehicles = useMemo(() => {
+    if (!currentVehicle) return [];
+    const pool = vehicles.filter((v) => v.id !== currentVehicle.id && !v.archived);
+    const scored = pool.map((v) => {
+      let score = 0;
+      if (v.brand.toLowerCase() === currentVehicle.brand.toLowerCase()) score += 3;
+      if (Math.abs(v.year - currentVehicle.year) <= 2) score += 2;
+      return { vehicle: v, score };
+    });
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, 3).map((item) => item.vehicle);
+  }, [currentVehicle, vehicles]);
+
   if (!currentVehicle) {
     return (
       <div className="min-h-screen bg-slate-50">
@@ -69,14 +114,26 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
     <div className="min-h-screen bg-slate-50">
       <Navigation />
 
-      <main className="container mx-auto max-w-7xl px-4 py-8">
-        <Link
-          href="/veiculos"
-          className="inline-flex items-center text-slate-600 hover:text-primary mb-6 transition-colors font-medium"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Voltar para Veículos
-        </Link>
+      <main className="container mx-auto max-w-7xl px-4 py-8 pb-28 lg:pb-8">
+        <div className="flex items-center justify-between mb-6">
+          <Link
+            href="/veiculos"
+            className="inline-flex items-center text-slate-600 hover:text-primary transition-colors font-semibold text-sm group"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Voltar para Veículos
+          </Link>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleShare}
+            className="border-slate-200 text-slate-700 hover:bg-slate-100 rounded-xl gap-2 text-xs font-semibold h-9"
+          >
+            <Share2 className="w-3.5 h-3.5 text-primary" />
+            <span>Compartilhar</span>
+          </Button>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left Column: Images */}
@@ -128,7 +185,7 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
               </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-wider font-semibold">
-                  <Users className="w-3.5 h-3.5" />
+                  <Cog className="w-3.5 h-3.5" />
                   Câmbio
                 </div>
                 <p className="font-semibold text-slate-900">{currentVehicle.transmission}</p>
@@ -183,7 +240,62 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
             <VehicleActions vehicle={currentVehicle} />
           </div>
         </div>
+
+        {/* Similar / Related Vehicles */}
+        {similarVehicles.length > 0 && (
+          <section className="mt-16 pt-12 border-t border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
+              <div>
+                <span className="text-xs font-bold text-[#D60404] uppercase tracking-wider">
+                  Você também pode gostar
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#323062] tracking-tight mt-1">
+                  Veja outros carros
+                </h2>
+              </div>
+              <Button asChild variant="outline" className="border-slate-300 font-bold hover:bg-slate-100 rounded-xl h-11">
+                <Link href="/veiculos">Ver Mais</Link>
+              </Button>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {similarVehicles.map((simVehicle) => (
+                <VehicleCard key={simVehicle.id} vehicle={simVehicle} />
+              ))}
+            </div>
+          </section>
+        )}
       </main>
+
+      <Footer />
+
+      {/* Mobile Sticky Bottom Conversion Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 shadow-[0_-4px_25px_rgba(0,0,0,0.1)] flex items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider truncate">
+            {currentVehicle.brand} {currentVehicle.model}
+          </div>
+          <div className="text-xl font-black text-[#323062] tracking-tight leading-none">
+            {currentVehicle.price && currentVehicle.price !== "Consulte" ? currentVehicle.price : "Sob Consulta"}
+          </div>
+        </div>
+
+        <Button
+          asChild
+          className="bg-[#25D366] hover:bg-[#1fba59] text-white font-extrabold px-4 py-2.5 h-12 rounded-xl shadow-md shadow-green-500/25 active:scale-95 transition-all shrink-0 flex items-center gap-2 text-sm"
+        >
+          <a
+            href={`https://wa.me/5553984139110?text=${encodeURIComponent(
+              `Olá! Estou vendo o ${currentVehicle.brand} ${currentVehicle.model} (${currentVehicle.version}, ${currentVehicle.modelYear}/${currentVehicle.year}) no site e gostaria de mais informações.`
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <MessageCircle className="w-5 h-5 fill-current" />
+            <span>Chamar WhatsApp</span>
+          </a>
+        </Button>
+      </div>
     </div>
   );
 }

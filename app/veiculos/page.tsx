@@ -1,31 +1,37 @@
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { VehicleCatalog } from "@/components/vehicles/vehicle-catalog";
+import { VehicleAppInstallModal } from "@/components/vehicles/vehicle-app-install-modal";
 import { getVehicles } from "@/lib/supabase-db";
 import { Metadata } from "next";
+import { breadcrumbSchema, BASE_URL } from "@/lib/schemas";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Veículos Disponíveis | Estoque Seminovos e Usados",
+  title: "Carros Usados e Seminovos em Rio Grande - RS | Estoque VipVeículos",
   description:
-    "Explore nosso estoque atualizado de veículos revisados de qualidade: Chevrolet, Volkswagen, Fiat, Hyundai, Toyota, Honda, Renault e Ford. Carros seminovos com garantia e procedência em Rio Grande - RS.",
+    "Procurando carros em Rio Grande - RS? Confira nosso estoque atualizado de Ford, Chevrolet, Volkswagen, Fiat, Hyundai e Toyota seminovos revisados e com garantia.",
+  alternates: {
+    canonical: `${BASE_URL}/veiculos`,
+  },
   keywords: [
-    "estoque carros Rio Grande",
-    "carros à venda Rio Grande RS",
-    "Chevrolet usados RS",
-    "Volkswagen seminovos",
-    "Fiat seminovo",
-    "Hyundai Rio Grande",
-    "Toyota seminovo RS",
-    "Honda usado RS",
-    "veículos revisados Rio Grande",
-    "carros com garantia RS",
+    "carros usados em Rio Grande",
+    "carros seminovos Rio Grande RS",
+    "comprar carro em Rio Grande",
+    "Ford Ka em Rio Grande",
+    "Ford usado Rio Grande",
+    "Chevrolet seminovos Rio Grande",
+    "Volkswagen usados Rio Grande",
+    "Fiat Rio Grande",
+    "loja de carros Rio Grande RS",
+    "VipVeículos",
   ],
   openGraph: {
-    title: "Estoque de Veículos - VipVeículos Rio Grande",
+    title: "Carros Usados e Seminovos em Rio Grande - RS | VipVeículos",
     description:
-      "Explore nosso estoque de veículos revisados de qualidade. Carros seminovos com garantia e procedência em Rio Grande - RS.",
-    url: "https://vipveiculosriogrande.com.br/veiculos",
+      "Explore nosso estoque de veículos seminovos e usados revisados com garantia e procedência em Rio Grande - RS.",
+    url: `${BASE_URL}/veiculos`,
   },
 };
 
@@ -37,8 +43,20 @@ export default async function VehiclesPage() {
     console.error("Error loading vehicles for catalog page:", e);
   }
 
+  const breadcrumbsJsonLd = breadcrumbSchema([
+    { name: "Início", url: BASE_URL },
+    { name: "Carros Usados em Rio Grande", url: `${BASE_URL}/veiculos` },
+  ]);
+
   return (
     <div className="min-h-screen bg-slate-50">
+      <VehicleAppInstallModal />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbsJsonLd),
+        }}
+      />
       <Navigation />
 
       {/* Header */}
@@ -50,17 +68,17 @@ export default async function VehiclesPage() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
-              Encontre seu próximo carro
+              Carros Seminovos em Rio Grande - RS
             </h1>
             <p className="text-blue-100 text-lg md:text-xl font-light leading-relaxed">
-              Confira nossa seleção exclusiva de veículos seminovos.
-              Qualidade garantida, IPVA pago e revisão em dia.
+              Confira nossa seleção exclusiva de veículos revisados com procedência e garantia.
             </p>
           </div>
         </div>
       </section>
 
       <VehicleCatalog initialVehicles={dbVehicles} />
+      <Footer />
     </div>
   );
 }

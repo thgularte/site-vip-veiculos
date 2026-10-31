@@ -1,0 +1,49 @@
+{
+  "name": "VipVeículos - Carros em Rio Grande",
+  "short_name": "VipVeículos",
+  "description": "Compre e venda carros seminovos e usados com segurança e garantia na VipVeículos em Rio Grande - RS.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1f1d42",
+  "theme_color": "#1f1d42",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Estoque",
+      "short_name": "Estoque",
+      "description": "Veja os carros seminovos disponíveis",
+      "url": "/veiculos",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Vender Carro",
+      "short_name": "Vender",
+      "description": "Avalie e venda seu carro",
+      "url": "/vender",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["shopping", "automotive", "business"]
+}

@@ -5,10 +5,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, MessageCircle, Phone, ChevronRight, MapPin, Instagram } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const navItems = [
     { href: "/", label: "Início" },
@@ -16,6 +19,11 @@ export function Navigation() {
     { href: "/sobre", label: "Sobre Nós" },
     { href: "/vender", label: "Venda seu Carro" },
   ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 sticky top-0 z-40 transition-all">
@@ -36,7 +44,7 @@ export function Navigation() {
               <div className="text-lg sm:text-xl font-extrabold text-[#323062] leading-tight tracking-tight">
                 VipVeículos
               </div>
-              <div className="text-[11px] font-semibold text-[#B9B9B9] leading-none">
+              <div className="text-[11px] font-semibold text-slate-400 leading-none">
                 Desde 2008
               </div>
             </div>
@@ -44,34 +52,24 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-[#323062] hover:text-[#D60404] font-bold text-base transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#D60404] hover:after:w-full after:transition-all"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "font-bold text-base transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all",
+                    active
+                      ? "text-[#D60404] after:w-full after:bg-[#D60404]"
+                      : "text-[#323062] hover:text-[#D60404] after:w-0 after:bg-[#D60404] hover:after:w-full"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
-
-          {/* Contact Button Desktop */}
-          <div className="hidden md:flex items-center gap-4">
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#D60404] hover:bg-[#A81818] text-white font-bold px-6 rounded-xl shadow-md hover:shadow-lg transition-all"
-            >
-              <a
-                href="https://wa.me/5553984139110?text=Olá! Gostaria de saber mais sobre os veículos da VipVeículos."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Phone className="w-4 h-4 mr-2" />
-                Falar com Consultor
-              </a>
-            </Button>
-          </div>
 
           {/* Mobile Menu Trigger */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -106,7 +104,7 @@ export function Navigation() {
                     <div className="text-xl font-extrabold text-[#323062]">
                       VipVeículos
                     </div>
-                    <div className="text-xs font-semibold text-[#B9B9B9]">
+                    <div className="text-xs font-semibold text-slate-400">
                       Desde 2008
                     </div>
                   </div>
@@ -114,17 +112,25 @@ export function Navigation() {
 
                 {/* Navigation Links */}
                 <nav className="space-y-2.5">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center justify-between px-4 py-3.5 rounded-xl text-[#323062] font-bold text-base bg-slate-50/80 hover:bg-[#D60404] hover:text-white active:scale-[0.98] transition-all"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronRight className="w-5 h-5 opacity-50" />
-                    </Link>
-                  ))}
+                  {navItems.map((item) => {
+                    const active = isActive(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={cn(
+                          "flex items-center justify-between px-4 py-3.5 rounded-xl font-bold text-base active:scale-[0.98] transition-all",
+                          active
+                            ? "bg-[#D60404] text-white shadow-sm"
+                            : "text-[#323062] bg-slate-50/80 hover:bg-[#D60404] hover:text-white"
+                        )}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span>{item.label}</span>
+                        <ChevronRight className={cn("w-5 h-5", active ? "opacity-90" : "opacity-40")} />
+                      </Link>
+                    );
+                  })}
                 </nav>
               </div>
 
@@ -159,24 +165,6 @@ export function Navigation() {
             </SheetContent>
           </Sheet>
         </div>
-      </div>
-
-      {/* WhatsApp Floating Button */}
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
-        <Button
-          asChild
-          size="lg"
-          className="bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full w-14 h-14 sm:w-16 sm:h-16 p-0 shadow-xl shadow-green-500/30 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center group"
-        >
-          <a
-            href="https://wa.me/5553984139110?text=Olá! Gostaria de saber mais sobre os veículos da VipVeículos."
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Falar no WhatsApp"
-          >
-            <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 fill-current group-hover:scale-110 transition-transform" />
-          </a>
-        </Button>
       </div>
     </header>
   );
