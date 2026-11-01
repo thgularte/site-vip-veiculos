@@ -17,14 +17,26 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
     return (
         <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden border-border/50 bg-white/50 backdrop-blur-sm flex flex-col justify-between">
             <div>
-                <div className="relative overflow-hidden aspect-[4/3] sm:aspect-[16/10] bg-slate-900">
-                    <Link href={`/veiculos/${vehicle.id}`} className="block w-full h-full">
+                <div className="relative overflow-hidden aspect-[16/10] max-h-[220px] bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+                    <Link href={`/veiculos/${vehicle.id}`} className="relative block w-full h-full flex items-center justify-center">
+                        {/* Fundo borrado sutil para harmonia */}
+                        <div className="absolute inset-0 -z-10 opacity-35 blur-xl scale-110 pointer-events-none">
+                            <Image
+                                src={formatGoogleDriveUrl(vehicle.image || "/placeholder.svg")}
+                                alt=""
+                                fill
+                                aria-hidden="true"
+                                className="object-cover"
+                            />
+                        </div>
+
+                        {/* Imagem do carro adaptada 100% sem cortes e em tamanho mais compacto */}
                         <Image
                             src={formatGoogleDriveUrl(vehicle.image || "/placeholder.svg")}
                             alt={`${vehicle.brand} ${vehicle.model}`}
                             fill
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                         />
                     </Link>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

@@ -103,8 +103,8 @@ export function VehicleGallery({
 
     return (
         <div className="space-y-3 sm:space-y-4">
-            {/* Main Carousel Wrapper - Responsive Aspect Ratio (4:3 mobile, 16:9 desktop) */}
-            <div className="relative aspect-[4/3] sm:aspect-video w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg bg-slate-900 border border-slate-100 group select-none touch-pan-y">
+            {/* Main Carousel Wrapper - Altura mais compacta para mobile (16:10 / 16:9), ocupando menos espaço vertical */}
+            <div className="relative aspect-[16/10] sm:aspect-video max-h-[340px] sm:max-h-[460px] w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800/60 group select-none touch-pan-y mx-auto">
                 <Carousel
                     setApi={setApi}
                     opts={{ loop: galleryList.length > 1 }}
@@ -114,15 +114,27 @@ export function VehicleGallery({
                         {galleryList.map((imgUrl, index) => (
                             <CarouselItem
                                 key={index}
-                                className="relative aspect-[4/3] sm:aspect-video w-full h-full pl-0 cursor-zoom-in"
+                                className="relative aspect-[16/10] sm:aspect-video max-h-[340px] sm:max-h-[460px] w-full h-full pl-0 cursor-zoom-in flex items-center justify-center overflow-hidden"
                                 onClick={() => openFullscreen(index)}
                             >
+                                {/* Fundo borrado sutil para preencher eventuais barras */}
+                                <div className="absolute inset-0 -z-10 opacity-30 blur-2xl scale-110 pointer-events-none">
+                                    <Image
+                                        src={imgUrl}
+                                        alt=""
+                                        fill
+                                        aria-hidden="true"
+                                        className="object-cover"
+                                    />
+                                </div>
+
+                                {/* Imagem principal com padding adequado para ficar contida e menor */}
                                 <Image
                                     src={imgUrl}
                                     alt={`${brand} ${model} - Foto ${index + 1}`}
                                     fill
-                                    sizes="(max-width: 768px) 100vw, 50vw"
-                                    className="object-contain sm:object-cover"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 50vw"
+                                    className="object-contain p-1.5 sm:p-3 transition-transform duration-300"
                                     priority={index === 0}
                                 />
                             </CarouselItem>
