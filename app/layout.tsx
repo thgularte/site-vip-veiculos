@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     images: ["/fundador.svg"],
   },
   verification: {
-    google: "google-site-verification-code", // Substituir pelo código real
+    google: "gx4y9wZEfFQq_RLBF7bvn21_A5fpwjABvJsI_VM8cgQ",
   },
   generator: "Next.js",
   applicationName: "VipVeículos",

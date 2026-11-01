@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { AnimateIn } from "@/components/ui/animate-in";
 import { organizationSchema, websiteSchema } from "@/lib/schemas";
 import {
   Award,
@@ -38,34 +39,34 @@ export default function HomePage() {
       <Navigation />
 
       {/* Store Front Image Section */}
-      <section className="relative h-[75vh] md:h-[85vh] overflow-hidden">
+      <section className="relative h-[85vh] md:h-[92vh] lg:h-[95vh] overflow-hidden">
         <Image
           src="/faxada.jpeg"
           alt="Fachada da VipVeículos - Loja de carros em Rio Grande, RS"
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        <div className="absolute bottom-8 left-6 sm:left-12 right-6 sm:right-auto text-white z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/55 pointer-events-none" />
+        <div className="absolute bottom-10 left-6 sm:left-12 right-6 sm:right-auto text-white z-10">
           <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-3.5 py-1.5 mb-3 text-xs sm:text-sm font-bold shadow-md">
             <Calendar className="w-4 h-4 mr-2" />
             Desde Janeiro de 2008
           </Badge>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none drop-shadow-md">
             VipVeículos
           </h1>
-          <p className="text-lg sm:text-2xl text-gray-200 mt-2 font-medium max-w-xl">
+          <p className="text-lg sm:text-2xl text-white mt-2 font-medium max-w-xl drop-shadow-md">
             A certeza de uma ótima compra em Rio Grande - RS
           </p>
         </div>
       </section>
 
       {/* Company Introduction Section */}
-      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100">
+      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-            <div className="space-y-6">
+            <AnimateIn variant="fade-right" className="space-y-6">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight text-[#323062] tracking-tight">
                 Tradição e Confiança
                 <span className="block text-xl sm:text-2xl lg:text-3xl text-[#D60404] font-semibold mt-1">
@@ -97,8 +98,9 @@ export default function HomePage() {
                   <Link href="/sobre">Conheça Nossa História</Link>
                 </Button>
               </div>
-            </div>
-            <div className="relative">
+            </AnimateIn>
+
+            <AnimateIn variant="fade-left" delayMs={200} className="relative">
               <Image
                 src="/fundador.svg"
                 alt="Interior da loja VipVeículos mostrando ambiente de atendimento aos clientes"
@@ -115,174 +117,198 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 sm:py-20 px-4 bg-gray-50 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
+          <AnimateIn variant="fade-up" className="text-center mb-12">
             <h2 className="text-3xl font-bold text-[#323062] mb-4">
               Por que escolher a VipVeículos?
             </h2>
             <p className="text-slate-600 text-lg">
               Qualidade, confiança e experiência em cada negociação
             </p>
-          </div>
+          </AnimateIn>
+
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-l-4 border-l-[#D60404] hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <Award className="w-12 h-12 text-[#D60404] mb-4" />
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">
-                  15+ Anos de Experiência
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Desde 2008 no mercado, garantindo expertise e confiabilidade
-                  em cada transação.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="border-l-4 border-l-[#2A1770] hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <Car className="w-12 h-12 text-[#2A1770] mb-4" />
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">
-                  Veículos de Qualidade
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Selecionamos cuidadosamente cada veículo para garantir a
-                  melhor experiência.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="border-l-4 border-l-[#03045E] hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <Users className="w-12 h-12 text-[#03045E] mb-4" />
-                <h3 className="text-xl font-semibold text-[#323062] mb-2">
-                  Atendimento Personalizado
-                </h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Ambiente harmonioso e negociações sérias, tratando cada
-                  cliente como família.
-                </p>
-              </CardContent>
-            </Card>
+            <AnimateIn variant="fade-up" delayMs={100} className="h-full">
+              <Card className="h-full border-l-4 border-l-[#D60404] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <CardContent className="p-6 sm:p-7">
+                  <div className="w-14 h-14 rounded-2xl bg-red-50 text-[#D60404] flex items-center justify-center mb-5 shadow-xs">
+                    <Award className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#323062] mb-2">
+                    15+ Anos de Experiência
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Desde 2008 no mercado, garantindo expertise e confiabilidade
+                    em cada transação.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimateIn>
+
+            <AnimateIn variant="fade-up" delayMs={250} className="h-full">
+              <Card className="h-full border-l-4 border-l-[#2A1770] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <CardContent className="p-6 sm:p-7">
+                  <div className="w-14 h-14 rounded-2xl bg-purple-50 text-[#2A1770] flex items-center justify-center mb-5 shadow-xs">
+                    <Car className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#323062] mb-2">
+                    Veículos de Qualidade
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Selecionamos cuidadosamente cada veículo para garantir a
+                    melhor experiência.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimateIn>
+
+            <AnimateIn variant="fade-up" delayMs={400} className="h-full">
+              <Card className="h-full border-l-4 border-l-[#03045E] hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <CardContent className="p-6 sm:p-7">
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#03045E] flex items-center justify-center mb-5 shadow-xs">
+                    <Users className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#323062] mb-2">
+                    Atendimento Personalizado
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Ambiente harmonioso e negociações sérias, tratando cada
+                    cliente como família.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
       {/* Customer Testimonials */}
-      <section className="py-16 px-4">
+      <section className="py-16 sm:py-20 px-4 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
+          <AnimateIn variant="fade-up" className="text-center mb-12">
             <h2 className="text-3xl font-bold text-[#323062] mb-4">
               O que nossos clientes dizem
             </h2>
             <p className="text-slate-600 text-lg">
               Depoimentos reais de quem confia na VipVeículos
             </p>
-          </div>
+          </AnimateIn>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-[#D60404] text-[#D60404]"
-                    />
-                  ))}
-                </div>
-                <p className="text-slate-700 mb-4 leading-relaxed italic">
-                  "A negociação lá sempre é resultado de qualidade e satisfação.
-                  Loja linda, impecável e produtos excelentes. Parabéns ao
-                  Marcos, Fábio e Patrícia..👏"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#323062] rounded-full flex items-center justify-center text-white font-semibold">
-                    R
+            <AnimateIn variant="fade-up" delayMs={100} className="h-full">
+              <Card className="h-full hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border-slate-100 shadow-sm flex flex-col justify-between">
+                <CardContent className="p-6">
+                  <div className="flex mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-[#D60404] text-[#D60404]"
+                      />
+                    ))}
                   </div>
-                  <div>
-                    <div className="font-semibold text-[#323062]">
-                      Rogerio Pereira
+                  <p className="text-slate-700 mb-4 leading-relaxed italic">
+                    "A negociação lá sempre é resultado de qualidade e satisfação.
+                    Loja linda, impecável e produtos excelentes. Parabéns ao
+                    Marcos, Fábio e Patrícia..👏"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#323062] rounded-full flex items-center justify-center text-white font-semibold">
+                      R
                     </div>
-                    <div className="text-sm text-slate-500">
-                      Cliente da VipVeículos
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-[#D60404] text-[#D60404]"
-                    />
-                  ))}
-                </div>
-                <p className="text-slate-700 mb-4 leading-relaxed italic">
-                  "Profissionais extremamente atenciosos, com certeza indico a
-                  todos... mais importante: seriedade... obrigada"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#2A1770] rounded-full flex items-center justify-center text-white font-semibold">
-                    M
-                  </div>
-                  <div>
-                    <div className="font-semibold text-[#323062]">
-                      Maria Medeiros
-                    </div>
-                    <div className="text-sm text-slate-500">
-                      Cliente da VipVeículos
+                    <div>
+                      <div className="font-semibold text-[#323062]">
+                        Rogerio Pereira
+                      </div>
+                      <div className="text-sm text-slate-500">
+                        Cliente da VipVeículos
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="hover:shadow-lg transition-shadow border-slate-100 shadow-sm">
-              <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-[#D60404] text-[#D60404]"
-                    />
-                  ))}
-                </div>
-                <p className="text-slate-700 mb-4 leading-relaxed italic">
-                  "Profissionais extremamente qualificados e responsáveis! Fiz
-                  minha compra, sem mesmo conhecer o veículo! E com certeza
-                  estou muito satisfeita com nossa negociação, carro impecável.
-                  Gratidão é a palavra que me define!"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#03045E] rounded-full flex items-center justify-center text-white font-semibold">
-                    B
+                </CardContent>
+              </Card>
+            </AnimateIn>
+
+            <AnimateIn variant="fade-up" delayMs={250} className="h-full">
+              <Card className="h-full hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border-slate-100 shadow-sm flex flex-col justify-between">
+                <CardContent className="p-6">
+                  <div className="flex mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-[#D60404] text-[#D60404]"
+                      />
+                    ))}
                   </div>
-                  <div>
-                    <div className="font-semibold text-[#323062]">
-                      Bianca Monks
+                  <p className="text-slate-700 mb-4 leading-relaxed italic">
+                    "Profissionais extremamente atenciosos, com certeza indico a
+                    todos... mais importante: seriedade... obrigada"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#2A1770] rounded-full flex items-center justify-center text-white font-semibold">
+                      M
                     </div>
-                    <div className="text-sm text-slate-500">
-                      Cliente da VipVeículos
+                    <div>
+                      <div className="font-semibold text-[#323062]">
+                        Maria Medeiros
+                      </div>
+                      <div className="text-sm text-slate-500">
+                        Cliente da VipVeículos
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </AnimateIn>
+
+            <AnimateIn variant="fade-up" delayMs={400} className="h-full">
+              <Card className="h-full hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border-slate-100 shadow-sm flex flex-col justify-between">
+                <CardContent className="p-6">
+                  <div className="flex mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-[#D60404] text-[#D60404]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-slate-700 mb-4 leading-relaxed italic">
+                    "Profissionais extremamente qualificados e responsáveis! Fiz
+                    minha compra, sem mesmo conhecer o veículo! E com certeza
+                    estou muito satisfeita com nossa negociação, carro impecável.
+                    Gratidão é a palavra que me define!"
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#03045E] rounded-full flex items-center justify-center text-white font-semibold">
+                      B
+                    </div>
+                    <div>
+                      <div className="font-semibold text-[#323062]">
+                        Bianca Monks
+                      </div>
+                      <div className="text-sm text-slate-500">
+                        Cliente da VipVeículos
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
       {/* Satisfied Customers / Realized Dreams Section */}
-      <section className="py-20 px-4 bg-slate-50 border-t border-b border-slate-100">
+      <section className="py-20 px-4 bg-slate-50 border-t border-b border-slate-100 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <AnimateIn variant="fade-right" className="space-y-6">
               <Badge className="bg-[#D60404] hover:bg-[#A81818] text-white px-4 py-2">
                 Sonhos Realizados
               </Badge>
@@ -306,10 +332,10 @@ export default function HomePage() {
                 celebração de um novo capítulo feliz na vida dos nossos clientes
                 e amigos.
               </p>
-            </div>
+            </AnimateIn>
 
             {/* Photo Grid / Gallery */}
-            <div className="grid grid-cols-2 gap-4">
+            <AnimateIn variant="fade-left" delayMs={200} className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="relative h-64 rounded-2xl overflow-hidden shadow-md group">
                   <Image
@@ -352,7 +378,7 @@ export default function HomePage() {
                     </span>
                   </div>
                 </div>
-                <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-[#323062] to-[#2A1770] flex flex-col justify-between p-6 text-white">
+                <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-[#323062] to-[#2A1770] flex flex-col justify-between p-6 text-white hover:scale-[1.02] transition-transform duration-300">
                   <Award className="w-8 h-8 text-[#D60404]" />
                   <div>
                     <p className="text-2xl font-bold">100%</p>
@@ -363,7 +389,7 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
@@ -391,19 +417,19 @@ export default function HomePage() {
       </section>
 
       {/* Location Section */}
-      <section className="py-16 sm:py-20 px-4">
+      <section className="py-16 sm:py-20 px-4 overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
+          <AnimateIn variant="fade-up" className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] mb-3">
               Nossa Localização
             </h2>
             <p className="text-slate-500 text-base sm:text-lg font-medium">
               Visite nossa loja e conheça nossos veículos pessoalmente
             </p>
-          </div>
+          </AnimateIn>
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
-            <div className="space-y-4 sm:space-y-6">
-              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+            <AnimateIn variant="fade-right" delayMs={100} className="space-y-4 sm:space-y-6">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                 <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-red-50 rounded-xl text-[#D60404] shrink-0">
@@ -438,7 +464,7 @@ export default function HomePage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                 <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-purple-50 rounded-xl text-[#2A1770] shrink-0">
@@ -472,7 +498,7 @@ export default function HomePage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <Card className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                 <CardContent className="p-6 sm:p-7">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-blue-50 rounded-xl text-[#03045E] shrink-0">
@@ -500,8 +526,9 @@ export default function HomePage() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
-            <div className="rounded-2xl overflow-hidden h-80 sm:h-96 shadow-lg border border-slate-100">
+            </AnimateIn>
+
+            <AnimateIn variant="fade-left" delayMs={200} className="rounded-2xl overflow-hidden h-80 sm:h-96 shadow-lg border border-slate-100">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d830.2631565826582!2d-52.1087724869792!3d-32.040895781187946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x751153bbfc5ef7eed%3A0xf8468d209e59ae21!2sAv.%20Santos%20Dumont%2C%2080%20-%20Vila%20Juncao%2C%20Rio%20Grande%20-%20RS%2C%2096202-090!5e0!3m2!1spt-BR!2sbr!4v1734011234567!5m2!1spt-BR!2sbr"
                 width="100%"
@@ -512,15 +539,15 @@ export default function HomePage() {
                 referrerPolicy="no-referrer-when-downgrade"
                 title="VipVeículos - Av. Santos Dumont, 80, Vila Junção, Rio Grande - RS"
               ></iframe>
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
       {/* Instagram CTA Section */}
-      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200">
-        <div className="container mx-auto max-w-4xl text-center space-y-5">
-          <div className="inline-flex p-3.5 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md">
+      <section className="py-16 sm:py-20 px-4 bg-gradient-to-br from-slate-50 to-slate-100 border-t border-slate-200 overflow-hidden">
+        <AnimateIn variant="zoom-in" className="container mx-auto max-w-4xl text-center space-y-5">
+          <div className="inline-flex p-3.5 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-2xl text-white shadow-md hover:rotate-6 transition-transform duration-300">
             <Instagram className="w-8 h-8" />
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#323062] tracking-tight">Siga-nos no Instagram</h2>
@@ -543,7 +570,7 @@ export default function HomePage() {
               </a>
             </Button>
           </div>
-        </div>
+        </AnimateIn>
       </section>
 
       <Footer />
