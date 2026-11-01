@@ -6,6 +6,7 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 import { FloatingWhatsAppButton } from "@/components/floating-whatsapp";
+import { NotificationPromptBanner } from "@/components/notification-prompt-banner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -104,6 +105,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={inter.className}>
         {children}
+        <NotificationPromptBanner />
         <FloatingWhatsAppButton />
         <PwaInstallPrompt />
         <Toaster />

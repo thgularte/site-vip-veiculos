@@ -73,3 +73,67 @@ self.addEventListener('fetch', (event) => {
     );
   }
 });
+
+// Push Notification Listener
+self.addEventListener('push', (event) => {
+  let data = {
+    title: '🚗 Novidade na VipVeículos!',
+    body: 'Um novo veículo acabou de chegar em nosso estoque de Rio Grande. Toque para ver fotos e detalhes!',
+    icon: '/icon-192x192.png',
+    badge: '/icon-192x192.png',
+    data: { url: '/veiculos' }
+  };
+
+  if (event.data) {
+    try {
+      const parsed = event.data.json();
+      data = { ...data, ...parsed };
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  const options = {
+    body: data.body,
+    icon: data.icon || '/icon-192x192.png',
+    badge: data.badge || '/icon-192x192.png',
+    image: data.image || undefined,
+    vibrate: [100, 50, 100],
+    data: data.data || { url: '/veiculos' },
+    actions: [
+      { action: 'open', title: 'Ver Carro' },
+      { action: 'close', title: 'Fechar' }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+// Notification Click Listener
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  if (event.action === 'close') {
+    return;
+  }
+
+  const targetUrl = event.notification.data?.url || '/veiculos';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // Se já houver aba aberta, foca nela e navega
+      for (const client of windowClients) {
+        if ('focus' in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      // Se não, abre nova janela
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
