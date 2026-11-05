@@ -157,3 +157,70 @@ export async function broadcastVehiclePush(vehicle: {
   return { sent, failed };
 }
 
+export async function broadcastCustomPush(options: {
+  title: string;
+  body: string;
+  url?: string;
+  image?: string;
+}) {
+  initWebPush();
+  const subscriptions = await getSubscriptions();
+  if (subscriptions.length === 0) {
+    return { sent: 0, failed: 0 };
+  }
+
+  const payload = JSON.stringify({
+    title: options.title || "🔔 Notificação VipVeículos",
+    body: options.body,
+    icon: "/icon-192x192.png",
+    badge: "/icon-192x192.png",
+    image: options.image || undefined,
+    data: {
+      url: options.url || "/veiculos",
+    },
+  });
+
+  let sent = 0;
+  let failed = 0;
+  const expiredEndpoints: string[] = [];
+
+  for (const sub of subscriptions) {
+    if (!sub.endpoint || !sub.keys) continue;
+    try {
+      await webpush.sendNotification(
+        {
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: sub.keys.p256dh,
+            auth: sub.keys.auth,
+          },
+        },
+        payload
+      );
+      sent++;
+    } catch (error: any) {
+      failed++;
+      if (error?.statusCode === 410 || error?.statusCode === 404) {
+        expiredEndpoints.push(sub.endpoint);
+      }
+    }
+  }
+
+  if (expiredEndpoints.length > 0) {
+    const updated = subscriptions.filter(
+      (s) => !expiredEndpoints.includes(s.endpoint)
+    );
+    await supabase.storage.from(BUCKET_NAME).upload(
+      FILE_NAME,
+      JSON.stringify(updated),
+      {
+        contentType: "application/json",
+        upsert: true,
+      }
+    );
+  }
+
+  return { sent, failed };
+}
+
+

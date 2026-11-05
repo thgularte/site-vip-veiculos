@@ -40,6 +40,7 @@ import {
   Tag,
   Smartphone,
   BellRing,
+  Send,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -73,6 +74,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
   // Alert dialogs state
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+  const [isSendingPush, setIsSendingPush] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -135,6 +137,31 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
     resetToDefault();
     showToast(" Padrão de fábrica restaurado com sucesso! (21 veículos originais)");
     setIsResetConfirmOpen(false);
+  };
+
+  const handleSendTestPush = async () => {
+    try {
+      setIsSendingPush(true);
+      const res = await fetch("/api/push/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "🔔 VipVeículos Teste",
+          message: "Esta é uma notificação de teste enviada diretamente do painel da VipVeículos!",
+          url: "/veiculos",
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showToast(`🔔 Notificação enviada para ${data.sent} dispositivo(s) com o app!`);
+      } else {
+        showToast(`Erro ao disparar: ${data.error || "Tente novamente"}`);
+      }
+    } catch (err: any) {
+      showToast("Erro de conexão ao enviar notificação.");
+    } finally {
+      setIsSendingPush(false);
+    }
   };
 
   const handleToggleArchive = (id: number) => {
@@ -379,11 +406,21 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 flex-wrap">
             <Badge variant="outline" className="bg-white/90 border-violet-200 text-violet-700 text-xs font-semibold px-2.5 py-1 flex items-center gap-1.5">
               <BellRing className="w-3.5 h-3.5 text-violet-600 animate-pulse" />
               <span>{pushSubscribers} com push ativo</span>
             </Badge>
+
+            <Button
+              size="sm"
+              disabled={isSendingPush || pushSubscribers === 0}
+              onClick={handleSendTestPush}
+              className="bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-xs font-semibold h-8 px-3 flex items-center gap-1.5 shadow-sm disabled:opacity-50"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span>{isSendingPush ? "Disparando..." : "Testar Notificação"}</span>
+            </Button>
           </div>
         </div>
 
