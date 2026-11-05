@@ -38,15 +38,19 @@ import {
   Calendar,
   Gauge,
   Tag,
+  Smartphone,
+  BellRing,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppStats } from "@/hooks/use-app-stats";
 
 interface AdminDashboardProps {
   onLogout: () => void;
 }
 
 export function AdminDashboard({ onLogout }: AdminDashboardProps) {
+  const { totalDownloads, pushSubscribers } = useAppStats();
   const {
     vehicles,
     activeVehicles,
@@ -110,7 +114,9 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
       showToast(` Veículo ${vehicleData.brand} ${vehicleData.model} atualizado com sucesso!`);
     } else {
       addVehicle(vehicleData);
-      showToast(` Novo veículo ${vehicleData.brand} ${vehicleData.model} adicionado ao estoque!`);
+      showToast(
+        ` Veículo ${vehicleData.brand} ${vehicleData.model} adicionado! Notificação enviada para as ${totalDownloads} pessoas com o app.`
+      );
     }
     setIsModalOpen(false);
     setEditingVehicle(null);
@@ -207,7 +213,7 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
       <main className="container mx-auto max-w-7xl px-4 mt-8 space-y-8">
         {/* KPI Cards Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <Card className="p-5 bg-white border-0 shadow-md rounded-2xl flex items-center justify-between relative overflow-hidden group hover:shadow-lg transition-shadow">
             <div className="absolute top-0 right-0 w-24 h-24 bg-[#323062]/5 rounded-full -mr-6 -mt-6 group-hover:scale-110 transition-transform" />
             <div>
@@ -257,6 +263,28 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
             </div>
             <div className="w-12 h-12 rounded-2xl bg-[#D60404]/10 flex items-center justify-center text-[#D60404]">
               <Layers className="w-6 h-6" />
+            </div>
+          </Card>
+
+          <Card className="col-span-2 sm:col-span-1 p-5 bg-white border-0 shadow-md rounded-2xl flex items-center justify-between relative overflow-hidden group hover:shadow-lg transition-shadow">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-violet-500/5 rounded-full -mr-6 -mt-6 group-hover:scale-110 transition-transform" />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <span>Downloads App</span>
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" title="Sincronizado" />
+              </p>
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <p className="text-3xl font-extrabold text-violet-700">{totalDownloads}</p>
+                <span className="text-xs font-semibold text-slate-400">
+                  {totalDownloads === 1 ? "pessoa" : "pessoas"}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 font-medium mt-1">
+                <strong className="text-violet-600 font-bold">{pushSubscribers}</strong> com push ativo
+              </p>
+            </div>
+            <div className="w-12 h-12 rounded-2xl bg-violet-600/10 flex items-center justify-center text-violet-600 shrink-0">
+              <Smartphone className="w-6 h-6" />
             </div>
           </Card>
         </div>
@@ -324,11 +352,38 @@ export function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             <Button
               onClick={handleOpenCreate}
-              className="bg-[#D60404] hover:bg-[#A81818] text-white rounded-xl h-10 text-sm font-semibold shadow-md shadow-red-600/20 px-5 shrink-0"
+              className="bg-[#D60404] hover:bg-[#A81818] text-white rounded-xl h-10 text-sm font-semibold shadow-md shadow-red-600/20 px-5 shrink-0 flex items-center gap-2"
             >
-              <Plus className="w-4 h-4 mr-1.5" />
-              Adicionar Veículo
+              <Plus className="w-4 h-4" />
+              <span>Adicionar Veículo</span>
+              <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 text-[11px] font-bold">
+                <Smartphone className="w-3 h-3" />
+                {totalDownloads} {totalDownloads === 1 ? "app" : "apps"}
+              </span>
             </Button>
+          </div>
+        </div>
+
+        {/* Banner de Alcance do Aplicativo */}
+        <div className="bg-gradient-to-r from-violet-600/10 via-[#323062]/10 to-transparent border border-violet-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center shrink-0 shadow-sm shadow-violet-500/20">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-[#323062]">
+                Alcance do Aplicativo: <span className="text-violet-700">{totalDownloads} {totalDownloads === 1 ? "pessoa baixou" : "pessoas baixaram"}</span> o app VipVeículos
+              </p>
+              <p className="text-xs text-slate-500">
+                Ao cadastrar ou atualizar veículos, você pode alcançar esses clientes instantaneamente com fotos e detalhes direto na tela do celular.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Badge variant="outline" className="bg-white/90 border-violet-200 text-violet-700 text-xs font-semibold px-2.5 py-1 flex items-center gap-1.5">
+              <BellRing className="w-3.5 h-3.5 text-violet-600 animate-pulse" />
+              <span>{pushSubscribers} com push ativo</span>
+            </Badge>
           </div>
         </div>
 

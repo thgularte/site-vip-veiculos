@@ -3,14 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Download, Sparkles, Smartphone, Share, PlusSquare, Check } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { registerAppInstallClient } from "@/hooks/use-app-stats";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -29,7 +24,16 @@ export function VehicleAppInstallModal() {
       window.matchMedia("(display-mode: standalone)").matches ||
       (window.navigator as any).standalone === true;
 
-    if (isStandalone) return;
+    if (isStandalone) {
+      registerAppInstallClient("standalone");
+      return;
+    }
+
+    const onAppInstalled = () => {
+      registerAppInstallClient("modal");
+      setIsOpen(false);
+    };
+    window.addEventListener("appinstalled", onAppInstalled);
 
     // Não exibe novamente se o usuário já fechou o modal nos últimos 3 dias
     const lastDismissed = localStorage.getItem("vip_app_modal_dismissed");
@@ -37,7 +41,9 @@ export function VehicleAppInstallModal() {
       const dismissedTime = parseInt(lastDismissed, 10);
       const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
       if (Date.now() - dismissedTime < threeDaysMs) {
-        return;
+        return () => {
+          window.removeEventListener("appinstalled", onAppInstalled);
+        };
       }
     }
 
@@ -64,12 +70,14 @@ export function VehicleAppInstallModal() {
     return () => {
       clearTimeout(timer);
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
   }, []);
 
   const handleInstallClick = async () => {
     if (isIOS) {
       setShowIOSSteps(true);
+      registerAppInstallClient("modal");
       return;
     }
 
@@ -77,12 +85,14 @@ export function VehicleAppInstallModal() {
       await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === "accepted") {
+        registerAppInstallClient("modal");
         setIsOpen(false);
       }
       setDeferredPrompt(null);
     } else {
       // Caso o navegador não suporte prompt programático
       setShowIOSSteps(true);
+      registerAppInstallClient("modal");
     }
   };
 

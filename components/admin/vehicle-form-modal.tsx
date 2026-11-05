@@ -47,8 +47,11 @@ import {
   ArrowRight,
   Star,
   Layers,
+  Smartphone,
+  BellRing,
 } from "lucide-react";
 import Image from "next/image";
+import { useAppStats } from "@/hooks/use-app-stats";
 
 interface VehicleFormModalProps {
   isOpen: boolean;
@@ -91,6 +94,7 @@ export function VehicleFormModal({
   initialData,
 }: VehicleFormModalProps) {
   const isEditing = !!initialData;
+  const { totalDownloads, pushSubscribers } = useAppStats();
 
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -289,16 +293,60 @@ export function VehicleFormModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 bg-slate-50 border-0 shadow-2xl rounded-2xl">
         <div className="bg-gradient-to-r from-[#323062] to-[#2A1770] text-white p-6 sticky top-0 z-20 shadow-md">
-          <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-            <Car className="w-6 h-6 text-[#D60404]" />
-            {isEditing ? `Editar ${initialData?.brand} ${initialData?.model}` : "Adicionar Novo Veículo"}
-          </DialogTitle>
-          <DialogDescription className="text-blue-100 text-sm mt-1">
-            Preencha as informações abaixo e gerencie N fotos do veículo em tempo real.
-          </DialogDescription>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                <Car className="w-6 h-6 text-[#D60404]" />
+                {isEditing ? `Editar ${initialData?.brand} ${initialData?.model}` : "Adicionar Novo Veículo"}
+              </DialogTitle>
+              <DialogDescription className="text-blue-100 text-sm mt-1">
+                Preencha as informações abaixo e gerencie N fotos do veículo em tempo real.
+              </DialogDescription>
+            </div>
+
+            {/* Quantidade de pessoas que baixaram o app */}
+            <div className="inline-flex items-center gap-2.5 bg-white/10 hover:bg-white/15 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/20 shrink-0 self-start sm:self-center shadow-xs">
+              <div className="w-8 h-8 rounded-lg bg-green-500/20 text-green-300 flex items-center justify-center shrink-0">
+                <Smartphone className="w-4 h-4" />
+              </div>
+              <div className="text-left">
+                <p className="text-[10px] uppercase font-bold tracking-wider text-blue-200">App VipVeículos</p>
+                <p className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span className="text-green-400 font-extrabold text-sm">{totalDownloads}</span> {totalDownloads === 1 ? "pessoa com o app" : "pessoas com o app"}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-8">
+          {/* Card de Notificação Automática para quem baixou o App */}
+          <div className="bg-gradient-to-r from-violet-50 via-purple-50 to-blue-50 border border-violet-200/90 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center shadow-md shadow-violet-500/20 shrink-0">
+                <BellRing className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-[#323062] flex items-center gap-2 flex-wrap">
+                  <span>Alerta Instantâneo no Celular dos Clientes</span>
+                  <Badge className="bg-violet-600 hover:bg-violet-700 text-white text-[10px] font-bold px-2 py-0.5">
+                    {totalDownloads} {totalDownloads === 1 ? "pessoa com o app" : "pessoas com o app"}
+                  </Badge>
+                </h4>
+                <p className="text-xs text-slate-600 mt-1">
+                  {isEditing
+                    ? `Existem ${totalDownloads} pessoas com o app instalado acompanhando o estoque da VipVeículos.`
+                    : `Ao cadastrar este novo veículo, uma notificação push será disparada para as ${totalDownloads} pessoas que baixaram o aplicativo!`}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-xs font-semibold text-violet-700 border border-violet-200/70 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                {pushSubscribers} notificações ativas
+              </span>
+            </div>
+          </div>
           {/* Section 1: Informações Básicas */}
           <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 space-y-4">
             <h3 className="font-semibold text-lg text-slate-800 flex items-center gap-2 border-b pb-3">
@@ -825,10 +873,19 @@ export function VehicleFormModal({
             </Button>
             <Button
               type="submit"
-              className="bg-[#D60404] hover:bg-[#A81818] text-white px-8 font-semibold shadow-md shadow-red-500/20"
+              className="bg-[#D60404] hover:bg-[#A81818] text-white px-8 font-semibold shadow-md shadow-red-500/20 flex items-center gap-2"
             >
-              <Check className="w-4 h-4 mr-2" />
-              {isEditing ? "Salvar Alterações" : "Adicionar Veículo"}
+              <Check className="w-4 h-4 mr-1" />
+              {isEditing ? (
+                "Salvar Alterações"
+              ) : (
+                <span>
+                  Adicionar Veículo
+                  <span className="opacity-90 font-normal text-xs ml-1.5">
+                    (Notifica {totalDownloads} no app)
+                  </span>
+                </span>
+              )}
             </Button>
           </DialogFooter>
         </form>

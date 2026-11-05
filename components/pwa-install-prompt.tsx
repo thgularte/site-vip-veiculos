@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Download, X, Share, PlusSquare } from "lucide-react";
 import Image from "next/image";
+import { registerAppInstallClient } from "@/hooks/use-app-stats";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -32,13 +33,22 @@ export function PwaInstallPrompt() {
 
     if (isApp) {
       setIsStandalone(true);
+      registerAppInstallClient("standalone");
       return;
     }
+
+    const onAppInstalled = () => {
+      registerAppInstallClient("pwa_prompt");
+      setIsDismissed(true);
+    };
+    window.addEventListener("appinstalled", onAppInstalled);
 
     // Verifica se já foi dispensado recentemente nesta sessão
     const dismissedSession = sessionStorage.getItem("pwa_prompt_dismissed");
     if (dismissedSession) {
-      return;
+      return () => {
+        window.removeEventListener("appinstalled", onAppInstalled);
+      };
     }
 
     // Detecta iOS Safari
@@ -53,7 +63,10 @@ export function PwaInstallPrompt() {
       // No iOS, se for Safari e não estiver instalado, mostra após 3s
       if (isSafari) {
         const timer = setTimeout(() => setIsDismissed(false), 3000);
-        return () => clearTimeout(timer);
+        return () => {
+          clearTimeout(timer);
+          window.removeEventListener("appinstalled", onAppInstalled);
+        };
       }
     }
 
@@ -68,12 +81,14 @@ export function PwaInstallPrompt() {
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handler);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
   }, []);
 
   const handleInstallClick = async () => {
     if (isIOS) {
       setShowIOSInstructions(true);
+      registerAppInstallClient("pwa_prompt");
       return;
     }
 
@@ -82,6 +97,7 @@ export function PwaInstallPrompt() {
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
+      registerAppInstallClient("pwa_prompt");
       setIsDismissed(true);
     }
     setDeferredPrompt(null);
