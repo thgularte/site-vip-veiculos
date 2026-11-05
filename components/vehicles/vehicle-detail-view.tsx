@@ -111,11 +111,11 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 overflow-x-hidden">
       <Navigation />
 
-      <main className="container mx-auto max-w-7xl px-4 py-8 pb-28 lg:pb-8">
-        <div className="flex items-center justify-between mb-6">
+      <main className="container mx-auto max-w-7xl px-3 sm:px-4 py-6 sm:py-8 pb-28 lg:pb-8 overflow-hidden">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
           <Link
             href="/veiculos"
             className="inline-flex items-center text-slate-600 hover:text-primary transition-colors font-semibold text-sm group"
@@ -135,15 +135,17 @@ export function VehicleDetailView({ id, initialVehicle }: VehicleDetailViewProps
           </Button>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 w-full max-w-full">
           {/* Left Column: Images */}
-          <VehicleGallery
-            image={currentVehicle.image}
-            images={currentVehicle.images}
-            brand={currentVehicle.brand}
-            model={currentVehicle.model}
-            extras={currentVehicle.extras}
-          />
+          <div className="w-full max-w-full overflow-hidden">
+            <VehicleGallery
+              image={currentVehicle.image}
+              images={currentVehicle.images}
+              brand={currentVehicle.brand}
+              model={currentVehicle.model}
+              extras={currentVehicle.extras}
+            />
+          </div>
 
           {/* Right Column: Info & Details */}
           <div className="flex flex-col gap-6">

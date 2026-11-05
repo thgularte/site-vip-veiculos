@@ -102,19 +102,19 @@ export function VehicleGallery({
     const canScrollNext = api?.canScrollNext() ?? false;
 
     return (
-        <div className="space-y-2.5 sm:space-y-4">
-            {/* Main Carousel Wrapper - Altura menor e bem proporcionada para telas mobile */}
-            <div className="relative w-full h-[220px] xs:h-[250px] sm:h-[340px] md:h-[400px] overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800/60 group select-none touch-pan-y mx-auto">
+        <div className="space-y-2.5 sm:space-y-4 w-full max-w-full overflow-hidden">
+            {/* Main Carousel Wrapper - Totalmente contido e adaptado à largura da tela do celular */}
+            <div className="relative w-full max-w-full aspect-[4/3] xs:aspect-[16/11] sm:aspect-video max-h-[300px] sm:max-h-[420px] overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800/60 group select-none touch-pan-y mx-auto">
                 <Carousel
                     setApi={setApi}
                     opts={{ loop: galleryList.length > 1 }}
-                    className="w-full h-full"
+                    className="w-full h-full max-w-full"
                 >
                     <CarouselContent className="h-full ml-0">
                         {galleryList.map((imgUrl, index) => (
                             <CarouselItem
                                 key={index}
-                                className="relative w-full h-[220px] xs:h-[250px] sm:h-[340px] md:h-[400px] pl-0 cursor-zoom-in flex items-center justify-center overflow-hidden"
+                                className="relative w-full h-full pl-0 cursor-zoom-in flex items-center justify-center overflow-hidden"
                                 onClick={() => openFullscreen(index)}
                             >
                                 {/* Fundo borrado sutil para preencher eventuais barras */}
@@ -128,15 +128,17 @@ export function VehicleGallery({
                                     />
                                 </div>
 
-                                {/* Imagem principal sempre 100% visível, contida e sem cortar nada */}
-                                <Image
-                                    src={imgUrl}
-                                    alt={`${brand} ${model} - Foto ${index + 1}`}
-                                    fill
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 50vw"
-                                    className="object-contain p-2 sm:p-4 transition-transform duration-300"
-                                    priority={index === 0}
-                                />
+                                {/* Imagem principal sempre contida perfeitamente na largura da tela */}
+                                <div className="relative w-full h-full p-2 sm:p-4 flex items-center justify-center">
+                                    <Image
+                                        src={imgUrl}
+                                        alt={`${brand} ${model} - Foto ${index + 1}`}
+                                        fill
+                                        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 40vw"
+                                        className="object-contain"
+                                        priority={index === 0}
+                                    />
+                                </div>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
