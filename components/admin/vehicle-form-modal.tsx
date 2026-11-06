@@ -291,7 +291,7 @@ export function VehicleFormModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0 bg-slate-50 border-0 shadow-2xl rounded-2xl">
+      <DialogContent className="max-w-7xl w-[96vw] max-h-[94vh] overflow-y-auto p-0 bg-slate-50 border-0 shadow-2xl rounded-2xl">
         <div className="bg-gradient-to-r from-[#323062] to-[#2A1770] text-white p-6 sticky top-0 z-20 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
@@ -571,7 +571,7 @@ export function VehicleFormModal({
               </div>
 
               {photos.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                   {photos.map((photoUrl, index) => {
                     const isCover = index === 0;
                     return (
